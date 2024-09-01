@@ -1,17 +1,93 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <!-- 前面的 head 內容保持不變 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>時間體驗問卷 (TEQ) - 30題版本</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; max-width: 1000px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .question-text { text-align: left; }
+        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        #results { margin-top: 20px; padding: 20px; background-color: #e9e9e9; border-radius: 5px; display: none; }
+    </style>
 </head>
 <body>
-    <!-- 前面的 body 內容保持不變 -->
+    <h1>時間體驗問卷 (TEQ) - 30題版本</h1>
+    <p>請根據您的真實感受，選擇最適合的選項。</p>
+    <form id="teqForm">
+        <table>
+            <tr>
+                <th class="question-text">問題</th>
+                <th>完全<br>不同意<br>1</th>
+                <th>非常<br>不同意<br>2</th>
+                <th>稍微<br>不同意<br>3</th>
+                <th>中立<br><br>4</th>
+                <th>稍微<br>同意<br>5</th>
+                <th>非常<br>同意<br>6</th>
+                <th>完全<br>同意<br>7</th>
+            </tr>
+            <!-- 問題將在這裡動態插入 -->
+        </table>
+        <button type="submit">提交</button>
+    </form>
+    <div id="results"></div>
 
     <script>
         const questions = [
-            // 問題列表保持不變
+            { text: "時間似乎過得很快。", category: "timePassage" },
+            { text: "我經常想像自己的未來。", category: "futureOrientation" },
+            { text: "我經常感到時間壓力。", category: "timePressure" },
+            { text: "我傾向於活在當下。", category: "presentOrientation" },
+            { text: "我常常回憶過去。", category: "pastOrientation" },
+            { text: "我覺得時間是一種稀缺資源。", category: "timeWaste" },
+            { text: "我能夠準確估計時間的流逝。", category: "timeManagement" },
+            { text: "我經常為未來做計劃。", category: "futureOrientation" },
+            { text: "我覺得生活節奏很快。", category: "timePassage" },
+            { text: "我常常感到時間不夠用。", category: "timePressure" },
+            { text: "我喜歡回味過去的美好時光。", category: "pastOrientation" },
+            { text: "我常常因為趕時間而感到焦慮。", category: "timePressure" },
+            { text: "我覺得時間是可以控制的。", category: "timeManagement" },
+            { text: "我經常感到時間在浪費。", category: "timeWaste" },
+            { text: "我傾向於推遲重要的決定。", category: "procrastination" },
+            { text: "我會為自己設定長期目標。", category: "futureOrientation" },
+            { text: "我覺得時間像河流一樣流逝。", category: "timePassage" },
+            { text: "我常常因為過去的事情而後悔。", category: "pastOrientation" },
+            { text: "我能夠有效地管理我的時間。", category: "timeManagement" },
+            { text: "我經常感到時間在不知不覺中流逝。", category: "timePassage" },
+            { text: "我喜歡制定詳細的日程計劃。", category: "timeManagement" },
+            { text: "我覺得時間有時會過得特別慢。", category: "timePassage" },
+            { text: "我傾向於專注於當前的任務，而不是想像未來。", category: "presentOrientation" },
+            { text: "我常常感到我的生活缺乏方向。", category: "futureOrientation" },
+            { text: "我喜歡反思過去的經歷並從中學習。", category: "pastOrientation" },
+            { text: "我經常感到時間的流逝速度變化很大。", category: "timePassage" },
+            { text: "我傾向於延遲開始重要的任務。", category: "procrastination" },
+            { text: "我常常為未來可能發生的事情而擔憂。", category: "futureOrientation" },
+            { text: "我覺得我的生活中有太多的死線和期限。", category: "timePressure" },
+            { text: "我能夠在工作和休閒之間保持良好的平衡。", category: "timeManagement" }
         ];
 
-        // 表格生成代碼保持不變
+        const table = document.querySelector('table');
+        questions.forEach((q, index) => {
+            const row = table.insertRow();
+            const cellQuestion = row.insertCell();
+            cellQuestion.textContent = `${index + 1}. ${q.text}`;
+            cellQuestion.className = 'question-text';
+
+            for (let i = 1; i <= 7; i++) {
+                const cell = row.insertCell();
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = `q${index + 1}`;
+                radio.value = i;
+                radio.required = true;
+                cell.appendChild(radio);
+            }
+        });
 
         document.getElementById('teqForm').onsubmit = function(e) {
             e.preventDefault();
