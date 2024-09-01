@@ -150,6 +150,15 @@
         .reduce((a, b) => scores[a] > scores[b] ? a : b)
         .replace('Orientation', '');
 
+function determineAnimal(scores) {
+    const timeWasteHigh = scores.timeWaste > 4;  // 修改判斷條件，選擇一個更合適的閾值
+    const timePassageHigh = scores.timePassage > 4;  // 同樣修改這裡的閾值
+    
+    // 找出得分最高的導向
+    const topOrientation = ['pastOrientation', 'presentOrientation', 'futureOrientation']
+        .reduce((a, b) => scores[a] > scores[b] ? a : b)
+        .replace('Orientation', '');
+
     const animals = {
         'highHighPast': { name: '水獺', image: 'otter.webp', description: '水獺的解說' },
         'highHighPresent': { name: '蜜蜂', image: 'bee.webp', description: '蜜蜂的解說' },
@@ -165,10 +174,11 @@
         'lowLowFuture': { name: '鯨魚', image: 'whale.webp', description: '鯨魚的解說' }
     };
 
-    const key = `${timeWasteHigh ? 'high' : 'low'}${timePassageHigh ? 'High' : 'Low'}${topOrientation}`;
-    console.log('Generated Key:', key); // 用于调试
+    const key = `${timeWasteHigh ? 'high' : 'low'}${timePassageHigh ? 'High' : 'Low'}${topOrientation.charAt(0).toUpperCase() + topOrientation.slice(1)}`;
+    console.log('Generated Key:', key); // 用于調試
     return animals[key] || { name: '未知動物', image: 'unknown.webp', description: '無法確定具體動物類型' };
 }
+
     </script>
 </body>
 </html>
