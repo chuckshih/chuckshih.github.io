@@ -1,113 +1,95 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>時間體驗問卷 (TEQ)</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; max-width: 800px; margin: auto; }
-        .question { margin-bottom: 20px; background: #f4f4f4; padding: 15px; border-radius: 5px; }
-        button { padding: 10px 20px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background: #45a049; }
-        #results { margin-top: 20px; padding: 20px; background: #e9e9e9; border-radius: 5px; display: none; }
-    </style>
+    <!-- 前面的 head 內容保持不變 -->
 </head>
 <body>
-    <h1>時間體驗問卷 (TEQ)</h1>
-    <p>請根據您的真實感受，選擇最適合的選項。1 表示非常不同意，7 表示非常同意。</p>
-    <form id="teqForm">
-        <div id="questions"></div>
-        <button type="submit">提交</button>
-    </form>
-    <div id="results"></div>
+    <!-- 前面的 body 內容保持不變 -->
 
     <script>
-    const questions = [
-        "時間似乎過得很快。",
-        "我經常想像自己的未來。",
-        "我經常感到時間壓力。",
-        "我傾向於活在當下。",
-        "我常常回憶過去。",
-        "我覺得時間是一種稀缺資源。",
-        "我能夠準確估計時間的流逝。",
-        "我經常為未來做計劃。",
-        "我覺得生活節奏很快。",
-        "我常常感到時間不夠用。",
-        "我喜歡回味過去的美好時光。",
-        "我常常因為趕時間而感到焦慮。",
-        "我覺得時間是可以控制的。",
-        "我經常感到時間在浪費。",
-        "我傾向於推遲重要的決定。",
-        "我會為自己設定長期目標。",
-        "我覺得時間像河流一樣流逝。",
-        "我常常因為過去的事情而後悔。",
-        "我能夠有效地管理我的時間。",
-        "我經常感到時間在不知不覺中流逝。"
-    ];
+        const questions = [
+            // 問題列表保持不變
+        ];
 
-    const questionsDiv = document.getElementById('questions');
-    questions.forEach((q, i) => {
-        questionsDiv.innerHTML += `
-            <div class="question">
-                <h3>${i+1}. ${q}</h3>
-                ${[1,2,3,4,5,6,7].map(n => `<input type="radio" name="q${i+1}" value="${n}" required>${n}`).join('')}
-            </div>`;
-    });
+        // 表格生成代碼保持不變
 
-    document.getElementById('teqForm').onsubmit = function(e) {
-        e.preventDefault();
-        let scores = {
-            timePassage: 0,
-            timePressure: 0,
-            futureOrientation: 0,
-            presentOrientation: 0,
-            pastOrientation: 0,
-            timeManagement: 0,
-            timeWasting: 0,
-            procrastination: 0
+        document.getElementById('teqForm').onsubmit = function(e) {
+            e.preventDefault();
+            const scores = {
+                timeWaste: 0,
+                timePassage: 0,
+                pastOrientation: 0,
+                presentOrientation: 0,
+                futureOrientation: 0,
+                timeManagement: 0,
+                procrastination: 0
+            };
+            const counts = {...scores};
+
+            questions.forEach((q, index) => {
+                const value = parseInt(document.querySelector(`input[name="q${index + 1}"]:checked`).value);
+                scores[q.category] += value;
+                counts[q.category]++;
+            });
+
+            for (let category in scores) {
+                scores[category] = (scores[category] / counts[category]).toFixed(2);
+            }
+
+            const animal = determineAnimal(scores);
+
+            let resultHTML = '<h2>您的TEQ結果</h2>';
+            const categories = ['timeWaste', 'timePassage', 'pastOrientation', 'presentOrientation', 'futureOrientation', 'timeManagement', 'procrastination'];
+            categories.forEach(category => {
+                resultHTML += `<p>${getCategoryName(category)}: ${scores[category]}</p>`;
+            });
+
+            resultHTML += `<h3>您的動物類型：${animal.name}</h3>`;
+            resultHTML += `<img src="${animal.image}" alt="${animal.name}" style="max-width: 300px;">`;
+            resultHTML += `<p>${animal.description}</p>`;
+
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').innerHTML = resultHTML;
         };
 
-        for (let i = 1; i <= 20; i++) {
-            let value = parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
-            if ([1,9,17,20].includes(i)) scores.timePassage += value;
-            if ([3,6,10,12].includes(i)) scores.timePressure += value;
-            if ([2,8,16].includes(i)) scores.futureOrientation += value;
-            if (i === 4) scores.presentOrientation = value;
-            if ([5,11,18].includes(i)) scores.pastOrientation += value;
-            if ([7,13,19].includes(i)) scores.timeManagement += value;
-            if (i === 14) scores.timeWasting = value;
-            if (i === 15) scores.procrastination = value;
+        function getCategoryName(category) {
+            const names = {
+                timeWaste: "時間浪費感",
+                timePassage: "時間流逝感",
+                pastOrientation: "過去導向性",
+                presentOrientation: "當下導向性",
+                futureOrientation: "未來導向性",
+                timeManagement: "時間管理",
+                procrastination: "拖延傾向"
+            };
+            return names[category] || category;
         }
 
-        scores.timePassage /= 4;
-        scores.timePressure /= 4;
-        scores.futureOrientation /= 3;
-        scores.pastOrientation /= 3;
-        scores.timeManagement /= 3;
+        function determineAnimal(scores) {
+            const timeWasteHigh = scores.timeWaste > 4;
+            const timePassageHigh = scores.timePassage > 4;
+            const orientations = ['pastOrientation', 'presentOrientation', 'futureOrientation']
+                .sort((a, b) => scores[b] - scores[a])
+                .slice(0, 2);
 
-        let result = '<h2>您的TEQ結果</h2>';
-        result += `<p>時間流逝感: ${scores.timePassage.toFixed(2)}/7 - ${interpretScore(scores.timePassage, '您感覺時間過得很快', '您感覺時間過得較慢')}</p>`;
-        result += `<p>時間壓力: ${scores.timePressure.toFixed(2)}/7 - ${interpretScore(scores.timePressure, '您經常感到時間壓力', '您較少感到時間壓力')}</p>`;
-        result += `<p>未來導向性: ${scores.futureOrientation.toFixed(2)}/7 - ${interpretScore(scores.futureOrientation, '您經常考慮未來', '您較少考慮未來')}</p>`;
-        result += `<p>當下導向性: ${scores.presentOrientation.toFixed(2)}/7 - ${interpretScore(scores.presentOrientation, '您傾向於活在當下', '您較少關注當下')}</p>`;
-        result += `<p>過去導向性: ${scores.pastOrientation.toFixed(2)}/7 - ${interpretScore(scores.pastOrientation, '您經常回憶過去', '您較少回憶過去')}</p>`;
-        result += `<p>時間管理: ${scores.timeManagement.toFixed(2)}/7 - ${interpretScore(scores.timeManagement, '您善於管理時間', '您的時間管理能力有待提升')}</p>`;
-        result += `<p>時間浪費感: ${scores.timeWasting.toFixed(2)}/7 - ${interpretScore(scores.timeWasting, '您經常感到時間被浪費', '您較少感到時間被浪費')}</p>`;
-        result += `<p>拖延傾向: ${scores.procrastination.toFixed(2)}/7 - ${interpretScore(scores.procrastination, '您有較強的拖延傾向', '您較少拖延')}</p>`;
+            const animals = {
+                'highHighPastPresent': { name: '水獺', image: 'otter.webp', description: '水獺的解說' },
+                'highHighPastFuture': { name: '松鼠', image: 'squirrel.webp', description: '松鼠的解說' },
+                'highHighPresentFuture': { name: '蜜蜂', image: 'bee.webp', description: '蜜蜂的解說' },
+                'highLowPastPresent': { name: '大象', image: 'elephant.webp', description: '大象的解說' },
+                'highLowPastFuture': { name: '貓頭鷹', image: 'owl.webp', description: '貓頭鷹的解說' },
+                'highLowPresentFuture': { name: '海豚', image: 'dolphin.webp', description: '海豚的解說' },
+                'lowHighPastPresent': { name: '獵豹', image: 'cheetah.webp', description: '獵豹的解說' },
+                'lowHighPastFuture': { name: '變色龍', image: 'chameleon.webp', description: '變色龍的解說' },
+                'lowHighPresentFuture': { name: '蝴蝶', image: 'butterfly.webp', description: '蝴蝶的解說' },
+                'lowLowPastPresent': { name: '無尾熊', image: 'koala.webp', description: '無尾熊的解說' },
+                'lowLowPastFuture': { name: '鯨魚', image: 'whale.webp', description: '鯨魚的解說' },
+                'lowLowPresentFuture': { name: '金魚', image: 'goldfish.webp', description: '金魚的解說' }
+            };
 
-        document.getElementById('results').style.display = 'block';
-        document.getElementById('results').innerHTML = result;
-    };
-
-    function interpretScore(score, highText, lowText) {
-        if (score >= 5) {
-            return highText;
-        } else if (score <= 3) {
-            return lowText;
-        } else {
-            return '您在這方面的表現處於中等水平';
+            const key = `${timeWasteHigh ? 'high' : 'low'}${timePassageHigh ? 'High' : 'Low'}${orientations.map(o => o.replace('Orientation', '')).join('')}`;
+            return animals[key] || { name: '未知動物', image: 'unknown.webp', description: '無法確定具體動物類型' };
         }
-    }
     </script>
 </body>
 </html>
