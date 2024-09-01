@@ -31,7 +31,6 @@
                 <th>非常<br>同意<br>6</th>
                 <th>完全<br>同意<br>7</th>
             </tr>
-            <!-- 問題將在這裡動態插入 -->
         </table>
         <button type="submit">提交</button>
     </form>
@@ -39,36 +38,36 @@
 
     <script>
         const questions = [
-            { text: "時間似乎過得很快。", category: "timePassage" },
-            { text: "我經常想像自己的未來。", category: "futureOrientation" },
-            { text: "我經常感到時間壓力。", category: "timePressure" },
-            { text: "我傾向於活在當下。", category: "presentOrientation" },
-            { text: "我常常回憶過去。", category: "pastOrientation" },
-            { text: "我覺得時間是一種稀缺資源。", category: "timeWaste" },
-            { text: "我能夠準確估計時間的流逝。", category: "timeManagement" },
-            { text: "我經常為未來做計劃。", category: "futureOrientation" },
-            { text: "我覺得生活節奏很快。", category: "timePassage" },
-            { text: "我常常感到時間不夠用。", category: "timePressure" },
-            { text: "我喜歡回味過去的美好時光。", category: "pastOrientation" },
-            { text: "我常常因為趕時間而感到焦慮。", category: "timePressure" },
-            { text: "我覺得時間是可以控制的。", category: "timeManagement" },
-            { text: "我經常感到時間在浪費。", category: "timeWaste" },
-            { text: "我傾向於推遲重要的決定。", category: "procrastination" },
-            { text: "我會為自己設定長期目標。", category: "futureOrientation" },
-            { text: "我覺得時間像河流一樣流逝。", category: "timePassage" },
-            { text: "我常常因為過去的事情而後悔。", category: "pastOrientation" },
-            { text: "我能夠有效地管理我的時間。", category: "timeManagement" },
-            { text: "我經常感到時間在不知不覺中流逝。", category: "timePassage" },
-            { text: "我喜歡制定詳細的日程計劃。", category: "timeManagement" },
-            { text: "我覺得時間有時會過得特別慢。", category: "timePassage" },
-            { text: "我傾向於專注於當前的任務，而不是想像未來。", category: "presentOrientation" },
-            { text: "我常常感到我的生活缺乏方向。", category: "futureOrientation" },
-            { text: "我喜歡反思過去的經歷並從中學習。", category: "pastOrientation" },
-            { text: "我經常感到時間的流逝速度變化很大。", category: "timePassage" },
-            { text: "我傾向於延遲開始重要的任務。", category: "procrastination" },
-            { text: "我常常為未來可能發生的事情而擔憂。", category: "futureOrientation" },
-            { text: "我覺得我的生活中有太多的死線和期限。", category: "timePressure" },
-            { text: "我能夠在工作和休閒之間保持良好的平衡。", category: "timeManagement" }
+            { text: "我覺得浪費時間讓我感到懊惱。", category: "timeWaste" },
+            { text: "我經常考慮未來可能遇到的挑戰。", category: "futureOrientation" },
+            { text: "我總是準時完成任務和工作。", category: "timeManagement" },
+            { text: "我覺得一天的時間總是不夠用。", category: "timePassage" },
+            { text: "我常覺得自己浪費了很多時間。", category: "timeWaste" },
+            { text: "我喜歡活在當下，享受當前的時光。", category: "presentOrientation" },
+            { text: "我常常忽略未來的規劃，而專注於當下。", category: "presentOrientation" },
+            { text: "我常常推遲需要完成的重要任務。", category: "procrastination" },
+            { text: "我經常因為過去的決定而後悔。", category: "pastOrientation" },
+            { text: "有時我覺得時間像靜止了一樣慢。", category: "timePassage" },
+            { text: "我覺得為了未來的成功，現在必須付出努力。", category: "futureOrientation" },
+            { text: "我傾向於專注於當下的任務，而不是計劃未來。", category: "presentOrientation" },
+            { text: "我經常回憶過去的經歷。", category: "pastOrientation" },
+            { text: "我擅長在工作和休閒之間找到平衡。", category: "timeManagement" },
+            { text: "我經常感到時間在不知不覺中溜走。", category: "timePassage" },
+            { text: "我有時覺得時間的流逝沒有價值。", category: "timeWaste" },
+            { text: "我經常設立長遠的目標，並為之努力。", category: "futureOrientation" },
+            { text: "我認為過去的經歷塑造了現在的我。", category: "pastOrientation" },
+            { text: "我認為自己能很好地管理時間。", category: "timeManagement" },
+            { text: "我常常因為拖延而感到壓力。", category: "procrastination" },
+            { text: "我經常感到時間被無意義的事情占用了。", category: "timeWaste" },
+            { text: "我對過去發生的事常感到懷念。", category: "pastOrientation" },
+            { text: "我覺得生活的節奏太快了。", category: "timePassage" },
+            { text: "我覺得時間是一種有限的資源。", category: "timeWaste" },
+            { text: "我經常為未來做詳細的計劃。", category: "futureOrientation" },
+            { text: "我經常覺得時間過得很快。", category: "timePassage" },
+            { text: "我覺得享受當下的生活比計劃未來更有意義。", category: "presentOrientation" },
+            { text: "我經常因為過去的事情而後悔。", category: "pastOrientation" },
+            { text: "我認為未來的成功取決於我現在的努力。", category: "futureOrientation" },
+            { text: "我常常推遲需要完成的重要任務。", category: "procrastination" }
         ];
 
         const table = document.querySelector('table');
@@ -145,14 +144,13 @@
             const timePassageHigh = scores.timePassage > 3.5;
             const timeWasteHigh = scores.timeWaste > 3.5;
 
-            // 找出兩個得分最高的導向
             const orientations = ['pastOrientation', 'presentOrientation', 'futureOrientation']
                 .sort((a, b) => scores[b] - scores[a])
                 .slice(0, 2)
                 .map(o => o.replace('Orientation', ''));
 
             const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${orientations.join('')}`;
-            console.log('Generated Key:', key); // 用于调试
+            console.log('Generated Key:', key); 
 
             const animals = {
                 'highHighpastpresent': { name: '水獺', image: 'otter.webp', description: '水獺的解說' },
