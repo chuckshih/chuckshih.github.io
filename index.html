@@ -153,35 +153,39 @@
             }
         }
 
-        function determineAnimal(scores) {
-            const timePassageHigh = scores.timePassage > 3.5;
-            const timeWasteHigh = scores.timeWaste > 3.5;
+function determineAnimal(scores) {
+    const timePassageHigh = scores.timePassage > 3.5;
+    const timeWasteHigh = scores.timeWaste > 3.5;
 
-            const orientations = ['pastOrientation', 'presentOrientation', 'futureOrientation']
-                .sort((a, b) => scores[b] - scores[a])
-                .slice(0, 2)
-                .map(o => o.replace('Orientation', ''));
+    // 找出得分最高的两项导向
+    const orientations = ['pastOrientation', 'presentOrientation', 'futureOrientation']
+        .sort((a, b) => scores[b] - scores[a])
+        .slice(0, 2)
+        .map(o => o.replace('Orientation', ''));
 
-            const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${orientations.join('')}`;
-            console.log('Generated Key:', key);
+    // 生成组合键
+    const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${orientations.join('')}`;
 
-            const animals = {
-                'highHighpastpresent': { name: '水獺', image: 'otter.webp', description: '水獺的解說' },
-                'highHighpastfuture': { name: '松鼠', image: 'squirrel.webp', description: '松鼠的解說' },
-                'highHighpresentfuture': { name: '蜜蜂', image: 'bee.webp', description: '蜜蜂的解說' },
-                'highLowpastpresent': { name: '大象', image: 'elephant.webp', description: '大象的解說' },
-                'highLowpastfuture': { name: '貓頭鷹', image: 'owl.webp', description: '貓頭鷹的解說' },
-                'highLowpresentfuture': { name: '海豚', image: 'dolphin.webp', description: '海豚的解說' },
-                'lowHighpastpresent': { name: '獵豹', image: 'cheetah.webp', description: '獵豹的解說' },
-                'lowHighpastfuture': { name: '變色龍', image: 'chameleon.webp', description: '變色龍的解說' },
-                'lowHighpresentfuture': { name: '蝴蝶', image: 'butterfly.webp', description: '蝴蝶的解說' },
-                'lowLowpastpresent': { name: '無尾熊', image: 'koala.webp', description: '無尾熊的解說' },
-                'lowLowpastfuture': { name: '鯨魚', image: 'whale.webp', description: '鯨魚的解說' },
-                'lowLowpresentfuture': { name: '金魚', image: 'goldfish.webp', description: '金魚的解說' }
-            };
+    // 打印生成的键用于调试
+    console.log('Generated Key:', key);
 
-            return animals[key] || { name: '未知動物', image: 'unknown.webp', description: '無法確定具體動物類型' };
-        }
-    </script>
+    // 定义所有可能组合及对应的动物类型
+    const animals = {
+        'highHighpastpresent': { name: '水獺', image: 'otter.webp', description: '水獺的解說' },
+        'highHighpastfuture': { name: '松鼠', image: 'squirrel.webp', description: '松鼠的解說' },
+        'highHighpresentfuture': { name: '蜜蜂', image: 'bee.webp', description: '蜜蜂的解說' },
+        'highLowpastpresent': { name: '大象', image: 'elephant.webp', description: '大象的解說' },
+        'highLowpastfuture': { name: '貓頭鷹', image: 'owl.webp', description: '貓頭鷹的解說' },
+        'highLowpresentfuture': { name: '海豚', image: 'dolphin.webp', description: '海豚的解說' },
+        'lowHighpastpresent': { name: '獵豹', image: 'cheetah.webp', description: '獵豹的解說' },
+        'lowHighpastfuture': { name: '變色龍', image: 'chameleon.webp', description: '變色龍的解說' },
+        'lowHighpresentfuture': { name: '蝴蝶', image: 'butterfly.webp', description: '蝴蝶的解說' },
+        'lowLowpastpresent': { name: '無尾熊', image: 'koala.webp', description: '無尾熊的解說' },
+        'lowLowpastfuture': { name: '鯨魚', image: 'whale.webp', description: '鯨魚的解說' },
+        'lowLowpresentfuture': { name: '金魚', image: 'goldfish.webp', description: '金魚的解說' }
+    };
+
+    return animals[key] || { name: '未知動物', image: 'unknown.webp', description: '無法確定具體動物類型' };
+}    </script>
 </body>
 </html>
