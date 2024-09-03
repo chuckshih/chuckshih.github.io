@@ -157,17 +157,24 @@ function determineAnimal(scores) {
     const timePassageHigh = scores.timePassage > 3.5;
     const timeWasteHigh = scores.timeWaste > 3.5;
 
-    // 找出得分最高的两项导向
-    const orientations = ['pastOrientation', 'presentOrientation', 'futureOrientation']
-        .sort((a, b) => scores[b] - scores[a])
-        .slice(0, 2)
-        .map(o => o.replace('Orientation', ''));
+    // 收集每个导向及其得分
+    const orientations = [
+        { name: 'past', score: scores.pastOrientation },
+        { name: 'present', score: scores.presentOrientation },
+        { name: 'future', score: scores.futureOrientation }
+    ];
+
+    // 按得分排序（从高到低）
+    orientations.sort((a, b) => b.score - a.score);
+
+    // 选取得分最高的两个导向
+    const topTwoOrientations = orientations.slice(0, 2).map(o => o.name);
 
     // 生成组合键
-    const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${orientations.join('')}`;
+    const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${topTwoOrientations.join('')}`;
 
     // 打印生成的键用于调试
-    console.log('Generated Key:', key);
+    console.log('Generated Key:', key); 
 
     // 定义所有可能组合及对应的动物类型
     const animals = {
@@ -185,7 +192,9 @@ function determineAnimal(scores) {
         'lowLowpresentfuture': { name: '金魚', image: 'goldfish.webp', description: '金魚的解說' }
     };
 
+    // 返回匹配的动物类型，或默认返回未知动物
     return animals[key] || { name: '未知動物', image: 'unknown.webp', description: '無法確定具體動物類型' };
+}
 }}    </script>
 </body>
 </html>
