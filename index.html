@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>時間體驗問卷 (TEQ) - 30題版本</title>
+    <title>時間體驗問卷 (TEQ) - 20題版本</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; max-width: 1000px; margin: auto; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <h1>時間體驗問卷 (TEQ) - 30題版本</h1>
+    <h1>時間體驗問卷 (TEQ) - 20題版本</h1>
     <p>時間體驗問卷 (TEQ) 是一個用來評估您對時間的感知、管理和利用情況的問卷。透過回答這些問題，您將能夠更清楚地了解自己在面對時間壓力、時間流逝感、以及過去、現在和未來等方面的傾向。</p>
     <p>請根據您的真實感受，選擇最適合的選項。為了確保結果能更清晰地反映您的感受，建議您在非常肯定或否定的情況下選擇1、2、6或7的選項。如果您的感受較為強烈，請避免選擇稍微同意/不同意或中立選項，這樣能幫助您獲得更顯著的結果。</p>
     <form id="teqForm">
@@ -39,36 +39,26 @@
 
     <script>
         const questions = [
-            { text: "我覺得浪費時間讓我感到懊惱。", category: "timeWaste" },
-            { text: "我經常考慮未來可能遇到的挑戰。", category: "futureOrientation" },
-            { text: "我總是準時完成任務和工作。", category: "timeManagement" },
-            { text: "我覺得一天的時間總是不夠用。", category: "timePassage" },
-            { text: "我常覺得自己浪費了很多時間。", category: "timeWaste" },
-            { text: "我喜歡活在當下，享受當前的時光。", category: "presentOrientation" },
-            { text: "我常常忽略未來的規劃，而專注於當下。", category: "presentOrientation" },
-            { text: "我常常推遲需要完成的重要任務。", category: "procrastination" },
-            { text: "我經常因為過去的決定而後悔。", category: "pastOrientation" },
-            { text: "有時我覺得時間像靜止了一樣慢。", category: "timePassage" },
-            { text: "我覺得為了未來的成功，現在必須付出努力。", category: "futureOrientation" },
-            { text: "我傾向於專注於當下的任務，而不是計劃未來。", category: "presentOrientation" },
-            { text: "我經常回憶過去的經歷。", category: "pastOrientation" },
-            { text: "我擅長在工作和休閒之間找到平衡。", category: "timeManagement" },
-            { text: "我經常感到時間在不知不覺中溜走。", category: "timePassage" },
-            { text: "我有時覺得時間的流逝沒有價值。", category: "timeWaste" },
-            { text: "我經常設立長遠的目標，並為之努力。", category: "futureOrientation" },
-            { text: "我認為過去的經歷塑造了現在的我。", category: "pastOrientation" },
-            { text: "我認為自己能很好地管理時間。", category: "timeManagement" },
-            { text: "我常常因為拖延而感到壓力。", category: "procrastination" },
-            { text: "我經常感到時間被無意義的事情占用了。", category: "timeWaste" },
-            { text: "我對過去發生的事常感到懷念。", category: "pastOrientation" },
-            { text: "我覺得生活的節奏太快了。", category: "timePassage" },
-            { text: "我覺得時間是一種有限的資源。", category: "timeWaste" },
-            { text: "我經常為未來做詳細的計劃。", category: "futureOrientation" },
-            { text: "我經常覺得時間過得很快。", category: "timePassage" },
-            { text: "我覺得享受當下的生活比計劃未來更有意義。", category: "presentOrientation" },
-            { text: "我經常因為過去的事情而後悔。", category: "pastOrientation" },
-            { text: "我認為未來的成功取決於我現在的努力。", category: "futureOrientation" },
-            { text: "我常常推遲需要完成的重要任務。", category: "procrastination" }
+            { text: "您是否常常為未來做計劃並設定目標？", category: "futureOrientation" },
+            { text: "您是否常常感覺時間在不知不覺中流逝？", category: "timePassage" },
+            { text: "您是否經常感到過去的日子比現在更好？", category: "pastOrientation" },
+            { text: "您是否能夠有效安排每天的時間？", category: "timeManagement" },
+            { text: "您是否常常沉浸在當前的活動中，忘記了時間？", category: "presentOrientation" },
+            { text: "您是否覺得自己總是在趕時間？", category: "timePressure" },
+            { text: "您是否經常反思過去的決定並感到後悔？", category: "pastOrientation" },
+            { text: "您是否認為當前的努力會決定未來的成功？", category: "futureOrientation" },
+            { text: "您是否常常覺得當前的時間不夠用？", category: "presentOrientation" },
+            { text: "您是否擅長管理時間並按時完成任務？", category: "timeManagement" },
+            { text: "您是否認為過去的經歷對現在的您影響很大？", category: "pastOrientation" },
+            { text: "您是否常常感到時間是一種有限的資源？", category: "timeManagement" },
+            { text: "您是否經常思考未來的挑戰並為之做準備？", category: "futureOrientation" },
+            { text: "您是否經常覺得一天的時間不夠用？", category: "timePassage" },
+            { text: "您是否傾向於專注於當前的任務，不考慮未來或過去？", category: "presentOrientation" },
+            { text: "您是否因為時間不夠用而感到焦慮？", category: "timePressure" },
+            { text: "寫論文時，您是否感到時間過得格外迅速？", category: "timePassage", optional: true, weight: 2 },
+            { text: "寫論文時，您是否會經常回顧已完成的內容，以調整或確定後續的寫作方向？", category: "pastOrientation", optional: true, weight: 2 },
+            { text: "寫論文時，您是否認為專注在當前寫作的章節內容，之後再調整整體結構？", category: "presentOrientation", optional: true, weight: 2 },
+            { text: "寫論文時，您是否經常設定短期目標來逐步完成每個部分？", category: "futureOrientation", optional: true, weight: 2 }
         ];
 
         const table = document.querySelector('table');
@@ -84,7 +74,9 @@
                 radio.type = 'radio';
                 radio.name = `q${index + 1}`;
                 radio.value = i;
-                radio.required = true;
+                if (!q.optional) {
+                    radio.required = true;
+                }
                 cell.appendChild(radio);
             }
         });
@@ -92,36 +84,40 @@
         document.getElementById('teqForm').onsubmit = function(e) {
             e.preventDefault();
             const scores = {
-                timeWaste: 0,
                 timePassage: 0,
                 pastOrientation: 0,
                 presentOrientation: 0,
                 futureOrientation: 0,
                 timeManagement: 0,
-                procrastination: 0
+                timePressure: 0
             };
-            const counts = {...scores};
+            const counts = { ...scores };
 
             questions.forEach((q, index) => {
-                const value = parseInt(document.querySelector(`input[name="q${index + 1}"]:checked`).value);
-                scores[q.category] += value;
-                counts[q.category]++;
+                const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+                if (selected) {
+                    const value = parseInt(selected.value);
+                    const weight = q.weight || 1;
+                    scores[q.category] += value * weight;
+                    counts[q.category] += weight;
+                }
             });
 
             for (let category in scores) {
-                scores[category] = (scores[category] / counts[category]).toFixed(2);
+                if (counts[category] > 0) {
+                    scores[category] = (scores[category] / counts[category]).toFixed(2);
+                }
             }
 
             const animal = determineAnimal(scores);
 
             let resultHTML = '<h2>您的TEQ結果</h2>';
-            resultHTML += `<p>時間浪費感: ${scores.timeWaste} (您對於時間被浪費的感覺${getDescription(scores.timeWaste, 'timeWaste')})</p>`;
             resultHTML += `<p>時間流逝感: ${scores.timePassage} (您對於時間流逝的感覺${getDescription(scores.timePassage, 'timePassage')})</p>`;
             resultHTML += `<p>過去導向性: ${scores.pastOrientation} (您${getDescription(scores.pastOrientation, 'pastOrientation')}關注過去)</p>`;
             resultHTML += `<p>當下導向性: ${scores.presentOrientation} (您${getDescription(scores.presentOrientation, 'presentOrientation')}關注現在)</p>`;
             resultHTML += `<p>未來導向性: ${scores.futureOrientation} (您${getDescription(scores.futureOrientation, 'futureOrientation')}關注未來)</p>`;
             resultHTML += `<p>時間管理: ${scores.timeManagement} (您的時間管理能力${getDescription(scores.timeManagement, 'timeManagement')})</p>`;
-            resultHTML += `<p>拖延傾向: ${scores.procrastination} (您的拖延傾向${getDescription(scores.procrastination, 'procrastination')})</p>`;
+            resultHTML += `<p>時間壓力: ${scores.timePressure} (您的時間壓力${getDescription(scores.timePressure, 'timePressure')})</p>`;
 
             resultHTML += `<h3>您的動物類型：${animal.name}</h3>`;
             resultHTML += `<img src="${animal.image}" alt="${animal.name}" style="max-width: 300px;">`;
@@ -132,7 +128,7 @@
         };
 
         function getDescription(score, category) {
-            if (category === 'timeWaste' || category === 'timePassage' || category === 'timeManagement' || category === 'procrastination') {
+            if (category === 'timePassage' || category === 'timeManagement' || category === 'timePressure') {
                 return score > 3.5 ? "較高" : "較低";
             } else {
                 if (score <= 3) return "低度關注";
@@ -142,49 +138,31 @@
         }
 
         function determineAnimal(scores) {
-            const timePassageHigh = scores.timePassage > 4.5; // 时间流逝感（调整后的阈值）
-            const timeWasteHigh = scores.timeWaste > 4.5;     // 时间浪费感（调整后的阈值）
+            const timePassageHigh = scores.timePassage > 3.5;
 
-            let firstOrientation = '';
-            let secondOrientation = '';
+            const orientations = [
+                { name: 'past', score: scores.pastOrientation },
+                { name: 'present', score: scores.presentOrientation },
+                { name: 'future', score: scores.futureOrientation }
+            ];
 
-            // 找到最高的导向
-            if (scores.pastOrientation >= scores.presentOrientation && scores.pastOrientation >= scores.futureOrientation) {
-                firstOrientation = 'past';
-            } else if (scores.presentOrientation >= scores.pastOrientation && scores.presentOrientation >= scores.futureOrientation) {
-                firstOrientation = 'present';
-            } else {
-                firstOrientation = 'future';
-            }
-
-            // 找到第二高的导向
-            if (firstOrientation === 'past') {
-                secondOrientation = scores.presentOrientation >= scores.futureOrientation ? 'present' : 'future';
-            } else if (firstOrientation === 'present') {
-                secondOrientation = scores.pastOrientation >= scores.futureOrientation ? 'past' : 'future';
-            } else {
-                secondOrientation = scores.pastOrientation >= scores.presentOrientation ? 'past' : 'present';
-            }
-
-            // 生成组合键
-            const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${firstOrientation}${secondOrientation}`;
-
-            // 打印生成的键用于调试
-            console.log('Generated Key:', key);
+            orientations.sort((a, b) => b.score - a.score);
+            const topTwoOrientations = orientations.slice(0, 2).map(o => o.name);
+            const key = `${timePassageHigh ? 'high' : 'low'}${topTwoOrientations.join('')}`;
 
             const animals = {
-                'highHighpastpresent': { name: '水獺', image: 'otter.webp', description: '水獺的解說' },
-                'highHighpastfuture': { name: '松鼠', image: 'squirrel.webp', description: '松鼠的解說' },
-                'highHighpresentfuture': { name: '蜜蜂', image: 'bee.webp', description: '蜜蜂的解說' },
-                'highLowpastpresent': { name: '大象', image: 'elephant.webp', description: '大象的解說' },
-                'highLowpastfuture': { name: '貓頭鷹', image: 'owl.webp', description: '貓頭鷹的解說' },
-                'highLowpresentfuture': { name: '海豚', image: 'dolphin.webp', description: '海豚的解說' },
-                'lowHighpastpresent': { name: '獵豹', image: 'cheetah.webp', description: '獵豹的解說' },
-                'lowHighpastfuture': { name: '變色龍', image: 'chameleon.webp', description: '變色龍的解說' },
-                'lowHighpresentfuture': { name: '蝴蝶', image: 'butterfly.webp', description: '蝴蝶的解說' },
-                'lowLowpastpresent': { name: '無尾熊', image: 'koala.webp', description: '無尾熊的解說' },
-                'lowLowpastfuture': { name: '鯨魚', image: 'whale.webp', description: '鯨魚的解說' },
-                'lowLowpresentfuture': { name: '金魚', image: 'goldfish.webp', description: '金魚的解說' }
+                'highpastpresent': { name: '水獺', image: 'otter.webp', description: '水獺的解說' },
+                'highpastfuture': { name: '松鼠', image: 'squirrel.webp', description: '松鼠的解說' },
+                'highpresentfuture': { name: '蜜蜂', image: 'bee.webp', description: '蜜蜂的解說' },
+                'lowpastpresent': { name: '大象', image: 'elephant.webp', description: '大象的解說' },
+                'lowpastfuture': { name: '貓頭鷹', image: 'owl.webp', description: '貓頭鷹的解說' },
+                'lowpresentfuture': { name: '海豚', image: 'dolphin.webp', description: '海豚的解說' },
+                'highpastpresent': { name: '獵豹', image: 'cheetah.webp', description: '獵豹的解說' },
+                'highpastfuture': { name: '變色龍', image: 'chameleon.webp', description: '變色龍的解說' },
+                'highpresentfuture': { name: '蝴蝶', image: 'butterfly.webp', description: '蝴蝶的解說' },
+                'lowpastpresent': { name: '無尾熊', image: 'koala.webp', description: '無尾熊的解說' },
+                'lowpastfuture': { name: '鯨魚', image: 'whale.webp', description: '鯨魚的解說' },
+                'lowpresentfuture': { name: '金魚', image: 'goldfish.webp', description: '金魚的解說' }
             };
 
             return animals[key] || { name: '未知動物', image: 'unknown.webp', description: '無法確定具體動物類型' };
