@@ -145,21 +145,29 @@
             const timePassageHigh = scores.timePassage > 4.5; // 时间流逝感（调整后的阈值）
             const timeWasteHigh = scores.timeWaste > 4.5;     // 时间浪费感（调整后的阈值）
 
-            // 处理导向得分，确保得分接近时也能正确排序
-            const orientations = [
-                { name: 'past', score: scores.pastOrientation },
-                { name: 'present', score: scores.presentOrientation },
-                { name: 'future', score: scores.futureOrientation }
-            ];
+            let firstOrientation = '';
+            let secondOrientation = '';
 
-            // 按得分排序（从高到低）
-            orientations.sort((a, b) => b.score - a.score);
+            // 找到最高的导向
+            if (scores.pastOrientation >= scores.presentOrientation && scores.pastOrientation >= scores.futureOrientation) {
+                firstOrientation = 'past';
+            } else if (scores.presentOrientation >= scores.pastOrientation && scores.presentOrientation >= scores.futureOrientation) {
+                firstOrientation = 'present';
+            } else {
+                firstOrientation = 'future';
+            }
 
-            // 选取得分最高的两个导向
-            const topTwoOrientations = orientations.slice(0, 2).map(o => o.name);
+            // 找到第二高的导向
+            if (firstOrientation === 'past') {
+                secondOrientation = scores.presentOrientation >= scores.futureOrientation ? 'present' : 'future';
+            } else if (firstOrientation === 'present') {
+                secondOrientation = scores.pastOrientation >= scores.futureOrientation ? 'past' : 'future';
+            } else {
+                secondOrientation = scores.pastOrientation >= scores.presentOrientation ? 'past' : 'present';
+            }
 
             // 生成组合键
-            const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${topTwoOrientations.join('')}`;
+            const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${firstOrientation}${secondOrientation}`;
 
             // 打印生成的键用于调试
             console.log('Generated Key:', key);
