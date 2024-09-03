@@ -37,15 +37,6 @@
     <div id="results"></div>
 
     <script>
-        function getDescription(score, category) {
-    if (category === 'timeWaste' || category === 'timePassage' || category === 'timeManagement' || category === 'procrastination') {
-        return score > 3.5 ? "較高" : "較低";
-    } else {
-        if (score <= 3) return "低度關注";
-        if (score <= 5) return "中度關注";
-        return "高度關注";
-    }
-}
         const questions = [
             { text: "我覺得浪費時間讓我感到懊惱。", category: "timeWaste" },
             { text: "我經常考慮未來可能遇到的挑戰。", category: "futureOrientation" },
@@ -97,58 +88,39 @@
             }
         });
 
-       document.getElementById('teqForm').onsubmit = function(e) {
-    e.preventDefault();
-    const scores = {
-        timeWaste: 0,
-        timePassage: 0,
-        pastOrientation: 0,
-        presentOrientation: 0,
-        futureOrientation: 0,
-        timeManagement: 0,
-        procrastination: 0
-    };
-    const counts = {...scores};
+        document.getElementById('teqForm').onsubmit = function(e) {
+            e.preventDefault();
+            const scores = {
+                timeWaste: 0,
+                timePassage: 0,
+                pastOrientation: 0,
+                presentOrientation: 0,
+                futureOrientation: 0,
+                timeManagement: 0,
+                procrastination: 0
+            };
+            const counts = {...scores};
 
-    questions.forEach((q, index) => {
-        const value = parseInt(document.querySelector(`input[name="q${index + 1}"]:checked`).value);
-        scores[q.category] += value;
-        counts[q.category]++;
-    });
+            questions.forEach((q, index) => {
+                const value = parseInt(document.querySelector(`input[name="q${index + 1}"]:checked`).value);
+                scores[q.category] += value;
+                counts[q.category]++;
+            });
 
-    for (let category in scores) {
-        scores[category] = (scores[category] / counts[category]).toFixed(2);
-    }
-
-    const animal = determineAnimal(scores);
-
-    let resultHTML = '<h2>您的TEQ結果</h2>';
-    resultHTML += '<h3>二分：</h3>';
-    resultHTML += `<p>時間浪費感: ${scores.timeWaste} (您對於時間被浪費的感覺${getDescription(scores.timeWaste, 'timeWaste')})</p>`;
-    resultHTML += `<p>時間流逝感: ${scores.timePassage} (您對於時間流逝的感覺${getDescription(scores.timePassage, 'timePassage')})</p>`;
-    resultHTML += '<h3>三分：</h3>';
-    resultHTML += `<p>過去導向性: ${scores.pastOrientation} (您${getDescription(scores.pastOrientation, 'pastOrientation')}過去)</p>`;
-    resultHTML += `<p>當下導向性: ${scores.presentOrientation} (您${getDescription(scores.presentOrientation, 'presentOrientation')}現在)</p>`;
-    resultHTML += `<p>未來導向性: ${scores.futureOrientation} (您${getDescription(scores.futureOrientation, 'futureOrientation')}未來)</p>`;
-    resultHTML += '<h3>二分：</h3>';
-    resultHTML += `<p>時間管理: ${scores.timeManagement} (您的時間管理能力${getDescription(scores.timeManagement, 'timeManagement')})</p>`;
-    resultHTML += `<p>拖延傾向: ${scores.procrastination} (您的拖延傾向${getDescription(scores.procrastination, 'procrastination')})</p>`;
-
-    resultHTML += `<h3>您的動物類型：${animal.name}</h3>`;
-    resultHTML += `<img src="${animal.image}" alt="${animal.name}" style="max-width: 300px;">`;
-    resultHTML += `<p>${animal.description}</p>`;
-
-    document.getElementById('results').style.display = 'block';
-    document.getElementById('results').innerHTML = resultHTML;
-};
+            for (let category in scores) {
+                scores[category] = (scores[category] / counts[category]).toFixed(2);
+            }
 
             const animal = determineAnimal(scores);
 
             let resultHTML = '<h2>您的TEQ結果</h2>';
-            const categories = ['timeWaste', 'timePassage', 'pastOrientation', 'presentOrientation', 'futureOrientation', 'timeManagement', 'procrastination'];
-            categories.forEach(category => {
-                resultHTML += `<p>${getCategoryName(category)}: ${scores[category]}</p>`;
-            });
+            resultHTML += `<p>時間浪費感: ${scores.timeWaste} (您對於時間被浪費的感覺${getDescription(scores.timeWaste, 'timeWaste')})</p>`;
+            resultHTML += `<p>時間流逝感: ${scores.timePassage} (您對於時間流逝的感覺${getDescription(scores.timePassage, 'timePassage')})</p>`;
+            resultHTML += `<p>過去導向性: ${scores.pastOrientation} (您${getDescription(scores.pastOrientation, 'pastOrientation')}關注過去)</p>`;
+            resultHTML += `<p>當下導向性: ${scores.presentOrientation} (您${getDescription(scores.presentOrientation, 'presentOrientation')}關注現在)</p>`;
+            resultHTML += `<p>未來導向性: ${scores.futureOrientation} (您${getDescription(scores.futureOrientation, 'futureOrientation')}關注未來)</p>`;
+            resultHTML += `<p>時間管理: ${scores.timeManagement} (您的時間管理能力${getDescription(scores.timeManagement, 'timeManagement')})</p>`;
+            resultHTML += `<p>拖延傾向: ${scores.procrastination} (您的拖延傾向${getDescription(scores.procrastination, 'procrastination')})</p>`;
 
             resultHTML += `<h3>您的動物類型：${animal.name}</h3>`;
             resultHTML += `<img src="${animal.image}" alt="${animal.name}" style="max-width: 300px;">`;
@@ -171,6 +143,16 @@
             return names[category] || category;
         }
 
+        function getDescription(score, category) {
+            if (category === 'timeWaste' || category === 'timePassage' || category === 'timeManagement' || category === 'procrastination') {
+                return score > 3.5 ? "較高" : "較低";
+            } else {
+                if (score <= 3) return "低度關注";
+                if (score <= 5) return "中度關注";
+                return "高度關注";
+            }
+        }
+
         function determineAnimal(scores) {
             const timePassageHigh = scores.timePassage > 3.5;
             const timeWasteHigh = scores.timeWaste > 3.5;
@@ -181,7 +163,7 @@
                 .map(o => o.replace('Orientation', ''));
 
             const key = `${timePassageHigh ? 'high' : 'low'}${timeWasteHigh ? 'High' : 'Low'}${orientations.join('')}`;
-            console.log('Generated Key:', key); 
+            console.log('Generated Key:', key);
 
             const animals = {
                 'highHighpastpresent': { name: '水獺', image: 'otter.webp', description: '水獺的解說' },
