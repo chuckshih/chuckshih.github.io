@@ -18,7 +18,8 @@
 </head>
 <body>
     <h1>時間體驗問卷 (TEQ) - 30題版本</h1>
-    <p>請根據您的真實感受，選擇最適合的選項。</p>
+    <p>時間體驗問卷 (TEQ) 是一個用來評估您對時間的感知、管理和利用情況的問卷。透過回答這些問題，您將能夠更清楚地了解自己在面對時間壓力、時間流逝感、以及過去、現在和未來等方面的傾向。</p>
+    <p>請根據您的真實感受，選擇最適合的選項。為了確保結果能更清晰地反映您的感受，建議您在非常肯定或否定的情況下選擇1、2、6或7的選項。如果您的感受較為強烈，請避免選擇稍微同意/不同意或中立選項，這樣能幫助您獲得更顯著的結果。</p>
     <form id="teqForm">
         <table>
             <tr>
@@ -141,8 +142,8 @@
         }
 
         function determineAnimal(scores) {
-            const timePassageHigh = scores.timePassage > 5;
-            const timeWasteHigh = scores.timeWaste > 5;
+            const timePassageHigh = scores.timePassage > 4.5; // 时间流逝感（调整后的阈值）
+            const timeWasteHigh = scores.timeWaste > 4.5;     // 时间浪费感（调整后的阈值）
 
             // 处理导向得分，确保得分接近时也能正确排序
             const orientations = [
