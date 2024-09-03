@@ -141,8 +141,8 @@
         }
 
         function determineAnimal(scores) {
-            const timePassageHigh = scores.timePassage > 3.5;
-            const timeWasteHigh = scores.timeWaste > 3.5;
+            const timePassageHigh = scores.timePassage > 5;
+            const timeWasteHigh = scores.timeWaste > 5;
 
             // 处理导向得分，确保得分接近时也能正确排序
             const orientations = [
