@@ -10,7 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
         }
@@ -20,6 +20,8 @@
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
         }
         #timer {
             font-size: 4rem;
@@ -32,7 +34,9 @@
             cursor: pointer;
         }
         #video-container {
-            margin-top: 1rem;
+            margin-top: 2rem;
+            border: 1px solid #ccc;
+            padding: 1rem;
         }
         video {
             max-width: 100%;
@@ -55,10 +59,12 @@
             <button id="shortBreak">短休息 (5分鐘)</button>
             <button id="longBreak">長休息 (15分鐘)</button>
         </div>
-        <div id="video-container" style="display:none;">
+        <div id="video-container">
+            <h3>無牙跳舞影片</h3>
             <video id="reward-video" src="https://github.com/chuckshih/chuckshih.github.io/raw/main/Toothless.mp4" controls loop>
                 您的瀏覽器不支持視頻標籤。
             </video>
+            <button id="play-video">播放無牙跳舞</button>
         </div>
     </div>
 
@@ -71,8 +77,8 @@
         const focusTimeButton = document.getElementById('focusTime');
         const shortBreakButton = document.getElementById('shortBreak');
         const longBreakButton = document.getElementById('longBreak');
-        const videoContainer = document.getElementById('video-container');
         const rewardVideo = document.getElementById('reward-video');
+        const playVideoButton = document.getElementById('play-video');
 
         let countdown;
         let timeLeft = 25 * 60;
@@ -92,7 +98,7 @@
                 if (timeLeft === 0) {
                     clearInterval(countdown);
                     playAlarm();
-                    showVideo();
+                    playVideo();
                 }
             }, 1000);
         }
@@ -105,14 +111,16 @@
             clearInterval(countdown);
             timeLeft = 25 * 60;
             updateTimer();
-            hideVideo();
+            rewardVideo.pause();
+            rewardVideo.currentTime = 0;
         }
 
         function setTime(minutes) {
             clearInterval(countdown);
             timeLeft = minutes * 60;
             updateTimer();
-            hideVideo();
+            rewardVideo.pause();
+            rewardVideo.currentTime = 0;
         }
 
         function playAlarm() {
@@ -128,15 +136,8 @@
             rewardVideo.muted = isMuted;
         }
 
-        function showVideo() {
-            videoContainer.style.display = 'block';
+        function playVideo() {
             rewardVideo.play();
-        }
-
-        function hideVideo() {
-            videoContainer.style.display = 'none';
-            rewardVideo.pause();
-            rewardVideo.currentTime = 0;
         }
 
         startButton.addEventListener('click', startTimer);
@@ -146,6 +147,7 @@
         focusTimeButton.addEventListener('click', () => setTime(25));
         shortBreakButton.addEventListener('click', () => setTime(5));
         longBreakButton.addEventListener('click', () => setTime(15));
+        playVideoButton.addEventListener('click', playVideo);
 
         updateTimer();
     </script>
