@@ -12,11 +12,11 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: khaki;  /* 土黃色背景 */
+            background-color: rgb(168, 139, 81);  /* 指定的背景顏色 */
         }
         .container {
             text-align: center;
-            background-color: white;
+            background-color: rgb(168, 139, 81);  /* 容器背景也使用相同顏色 */
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -26,24 +26,36 @@
         #timer {
             font-size: 4rem;
             margin: 1rem 0;
+            color: white;  /* 為了更好的對比度 */
         }
         button {
             margin: 0.5rem;
             padding: 0.5rem 1rem;
             font-size: 1rem;
             cursor: pointer;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
         }
         #video-container {
             margin-top: 2rem;
-            border: 1px solid #ccc;
+            border: 2px solid white;
             padding: 1rem;
-            background-color: #f8f8f8;
+            background-color: rgba(255, 255, 255, 0.1);
+            aspect-ratio: 1 / 1;  /* 使容器成為正方形 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         video {
             max-width: 100%;
-            height: auto;
+            max-height: calc(100% - 60px);  /* 減去標題和按鈕的大約高度 */
             display: block;
             margin: 0 auto;
+        }
+        h1, h3 {
+            color: white;  /* 為了更好的對比度 */
         }
     </style>
 </head>
