@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>番茄鐘</title>
+    <title>番茄鐘 with 無牙跳舞</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,7 +42,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>番茄鐘</h1>
+        <h1>番茄鐘 with 無牙跳舞</h1>
         <div id="timer">25:00</div>
         <div>
             <button id="start">開始</button>
@@ -51,12 +51,12 @@
             <button id="mute">靜音</button>
         </div>
         <div>
-            <button id="focusTime">專注時間</button>
-            <button id="shortBreak">短休息</button>
-            <button id="longBreak">長休息</button>
+            <button id="focusTime">專注時間 (25分鐘)</button>
+            <button id="shortBreak">短休息 (5分鐘)</button>
+            <button id="longBreak">長休息 (15分鐘)</button>
         </div>
         <div id="video-container" style="display:none;">
-            <video id="reward-video" src="https://raw.githubusercontent.com/chuckshih/chuckshih.github.io/main/Toothless.mp4" controls loop>
+            <video id="reward-video" src="https://github.com/chuckshih/chuckshih.github.io/raw/main/Toothless.mp4" controls loop>
                 您的瀏覽器不支持視頻標籤。
             </video>
         </div>
@@ -145,7 +145,7 @@
         muteButton.addEventListener('click', toggleMute);
         focusTimeButton.addEventListener('click', () => setTime(25));
         shortBreakButton.addEventListener('click', () => setTime(5));
-        longBreakButton.addEventListener('click', () => setTime(30));
+        longBreakButton.addEventListener('click', () => setTime(15));
 
         updateTimer();
     </script>
