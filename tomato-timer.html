@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>番茄鐘 with 無牙跳舞</title>
+    <title>簡化版番茄鐘</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,7 +47,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            display: none;
         }
         video {
             max-width: 100%;
@@ -55,58 +54,44 @@
             display: block;
             margin: 0 auto;
         }
-        h1, h3 {
+        h1 {
             color: white;
-        }
-        #immediateAction {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>番茄鐘 with 無牙跳舞</h1>
+        <h1>簡化版番茄鐘</h1>
         <div id="timer">25:00</div>
-        <div>
-            <button id="start">開始</button>
-            <button id="pause">暫停</button>
-            <button id="reset">重置</button>
-            <button id="mute">靜音</button>
-        </div>
         <div>
             <button id="focusTime">專注時間 (25分鐘)</button>
             <button id="shortBreak">短休息 (5分鐘)</button>
             <button id="longBreak">長休息 (15分鐘)</button>
             <button id="immediateAction">立即執行 (2分鐘)</button>
+            <button id="addOneMinute">加一分鐘 (+1分鐘)</button>
+        </div>
+        <div>
+            <button id="playVideo">播放 (無牙跳舞影片)</button>
         </div>
         <div id="video-container">
-            <h3>無牙跳舞影片</h3>
             <video id="reward-video" src="https://github.com/chuckshih/chuckshih.github.io/raw/main/Toothless.mp4" controls loop>
                 您的瀏覽器不支持視頻標籤。
             </video>
-            <button id="play-video">播放無牙跳舞</button>
         </div>
     </div>
 
     <script>
         const timer = document.getElementById('timer');
-        const startButton = document.getElementById('start');
-        const pauseButton = document.getElementById('pause');
-        const resetButton = document.getElementById('reset');
-        const muteButton = document.getElementById('mute');
         const focusTimeButton = document.getElementById('focusTime');
         const shortBreakButton = document.getElementById('shortBreak');
         const longBreakButton = document.getElementById('longBreak');
         const immediateActionButton = document.getElementById('immediateAction');
-        const videoContainer = document.getElementById('video-container');
+        const addOneMinuteButton = document.getElementById('addOneMinute');
+        const playVideoButton = document.getElementById('playVideo');
         const rewardVideo = document.getElementById('reward-video');
-        const playVideoButton = document.getElementById('play-video');
 
         let countdown;
         let timeLeft = 25 * 60;
-        let isMuted = false;
 
         function updateTimer() {
             const minutes = Math.floor(timeLeft / 60);
@@ -117,70 +102,41 @@
         function startTimer() {
             clearInterval(countdown);
             countdown = setInterval(() => {
-                timeLeft--;
-                updateTimer();
-                if (timeLeft === 0) {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTimer();
+                } else {
                     clearInterval(countdown);
-                    playAlarm();
-                    showAndPlayVideo();
+                    playVideo();
                 }
             }, 1000);
-        }
-
-        function pauseTimer() {
-            clearInterval(countdown);
-        }
-
-        function resetTimer() {
-            clearInterval(countdown);
-            timeLeft = 25 * 60;
-            updateTimer();
-            hideVideo();
         }
 
         function setTime(minutes) {
             clearInterval(countdown);
             timeLeft = minutes * 60;
             updateTimer();
-            hideVideo();
+            startTimer();
         }
 
-        function playAlarm() {
-            if (!isMuted) {
-                // 這裡可以播放聲音
-                console.log("鬧鈴響起！");
+        function addMinute() {
+            timeLeft += 60;
+            updateTimer();
+            if (!countdown) {
+                startTimer();
             }
         }
 
-        function toggleMute() {
-            isMuted = !isMuted;
-            muteButton.textContent = isMuted ? '取消靜音' : '靜音';
-            rewardVideo.muted = isMuted;
-        }
-
-        function showAndPlayVideo() {
-            videoContainer.style.display = 'flex';
+        function playVideo() {
             rewardVideo.play();
         }
 
-        function hideVideo() {
-            videoContainer.style.display = 'none';
-            rewardVideo.pause();
-            rewardVideo.currentTime = 0;
-        }
-
-        startButton.addEventListener('click', startTimer);
-        pauseButton.addEventListener('click', pauseTimer);
-        resetButton.addEventListener('click', resetTimer);
-        muteButton.addEventListener('click', toggleMute);
         focusTimeButton.addEventListener('click', () => setTime(25));
         shortBreakButton.addEventListener('click', () => setTime(5));
         longBreakButton.addEventListener('click', () => setTime(15));
-        immediateActionButton.addEventListener('click', () => {
-            setTime(2);
-            startTimer();
-        });
-        playVideoButton.addEventListener('click', showAndPlayVideo);
+        immediateActionButton.addEventListener('click', () => setTime(2));
+        addOneMinuteButton.addEventListener('click', addMinute);
+        playVideoButton.addEventListener('click', playVideo);
 
         updateTimer();
     </script>
