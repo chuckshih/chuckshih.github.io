@@ -12,11 +12,11 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: rgb(168, 139, 81);  /* 指定的背景顏色 */
+            background-color: rgb(168, 139, 81);
         }
         .container {
             text-align: center;
-            background-color: rgb(168, 139, 81);  /* 容器背景也使用相同顏色 */
+            background-color: rgb(168, 139, 81);
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -26,7 +26,7 @@
         #timer {
             font-size: 4rem;
             margin: 1rem 0;
-            color: white;  /* 為了更好的對比度 */
+            color: white;
         }
         button {
             margin: 0.5rem;
@@ -42,20 +42,26 @@
             border: 2px solid white;
             padding: 1rem;
             background-color: rgba(255, 255, 255, 0.1);
-            aspect-ratio: 1 / 1;  /* 使容器成為正方形 */
+            aspect-ratio: 1 / 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            display: none;
         }
         video {
             max-width: 100%;
-            max-height: calc(100% - 60px);  /* 減去標題和按鈕的大約高度 */
+            max-height: calc(100% - 60px);
             display: block;
             margin: 0 auto;
         }
         h1, h3 {
-            color: white;  /* 為了更好的對比度 */
+            color: white;
+        }
+        #immediateAction {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -73,6 +79,7 @@
             <button id="focusTime">專注時間 (25分鐘)</button>
             <button id="shortBreak">短休息 (5分鐘)</button>
             <button id="longBreak">長休息 (15分鐘)</button>
+            <button id="immediateAction">立即執行 (2分鐘)</button>
         </div>
         <div id="video-container">
             <h3>無牙跳舞影片</h3>
@@ -92,6 +99,8 @@
         const focusTimeButton = document.getElementById('focusTime');
         const shortBreakButton = document.getElementById('shortBreak');
         const longBreakButton = document.getElementById('longBreak');
+        const immediateActionButton = document.getElementById('immediateAction');
+        const videoContainer = document.getElementById('video-container');
         const rewardVideo = document.getElementById('reward-video');
         const playVideoButton = document.getElementById('play-video');
 
@@ -113,7 +122,7 @@
                 if (timeLeft === 0) {
                     clearInterval(countdown);
                     playAlarm();
-                    playVideo();
+                    showAndPlayVideo();
                 }
             }, 1000);
         }
@@ -126,16 +135,14 @@
             clearInterval(countdown);
             timeLeft = 25 * 60;
             updateTimer();
-            rewardVideo.pause();
-            rewardVideo.currentTime = 0;
+            hideVideo();
         }
 
         function setTime(minutes) {
             clearInterval(countdown);
             timeLeft = minutes * 60;
             updateTimer();
-            rewardVideo.pause();
-            rewardVideo.currentTime = 0;
+            hideVideo();
         }
 
         function playAlarm() {
@@ -151,8 +158,15 @@
             rewardVideo.muted = isMuted;
         }
 
-        function playVideo() {
+        function showAndPlayVideo() {
+            videoContainer.style.display = 'flex';
             rewardVideo.play();
+        }
+
+        function hideVideo() {
+            videoContainer.style.display = 'none';
+            rewardVideo.pause();
+            rewardVideo.currentTime = 0;
         }
 
         startButton.addEventListener('click', startTimer);
@@ -162,7 +176,11 @@
         focusTimeButton.addEventListener('click', () => setTime(25));
         shortBreakButton.addEventListener('click', () => setTime(5));
         longBreakButton.addEventListener('click', () => setTime(15));
-        playVideoButton.addEventListener('click', playVideo);
+        immediateActionButton.addEventListener('click', () => {
+            setTime(2);
+            startTimer();
+        });
+        playVideoButton.addEventListener('click', showAndPlayVideo);
 
         updateTimer();
     </script>
