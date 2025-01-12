@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>114年第三期中階永續管理師  線上互動題庫B卷</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .question-container {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 5px 0;
+        }
+        .explanation {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+            display: none;
+        }
+        .incorrect {
+            background-color: #ffeeee;
+        }
+        #score, #restart-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>114年第三期中階永續管理師  線上互動題庫B卷</h1>
+    <div id="quiz-container"></div>
+    <p id="score"></p>
+    <button id="submit-button" onclick="submitQuiz()">提交答案</button>
+    <button id="resubmit-button" onclick="resubmitQuiz()" style="display: none;">重新本頁測驗</button>
+    <button id="prev-button" onclick="prevPage()" style="display: none;">上一頁</button>
+    <button id="next-button" onclick="nextPage()" style="display: none;">下一頁</button>
+
+    <script>
+   const questions = [
+    {
+        "題號": 1,
+        "題目": "溫室效應是指行星的大氣層因為吸收何種能量，使得行星表面升溫？",
+        "選項A": "輻射",
+        "選項B": "超聲波",
+        "選項C": "α射線",
+        "選項D": "地震波",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 2,
+        "題目": "行政院環境部公告「第一批應盤查登錄溫室氣體排放量之排放源」，是指全廠(場)化石燃料燃燒產生之年溫室氣體排放量達多少tCO2e以上者?",
+        "選項A": "10000",
+        "選項B": "20000",
+        "選項C": "25000",
+        "選項D": "50000",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 3,
+        "題目": "下列何者意指計算二氧化碳排放總量，透過植樹等方式吸收這些二氧化碳，達成環保與平衡的最終目標？",
+        "選項A": "碳足跡",
+        "選項B": "碳標籤",
+        "選項C": "碳中和",
+        "選項D": "碳交易",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 4,
+        "題目": "減碳的工作並不止是公部門應該進行，也應該由全民來落實、執行，下列何者不是乾淨的低碳能源？",
+        "選項A": "再生能源",
+        "選項B": "火力發電",
+        "選項C": "可替代能源",
+        "選項D": "生質能源",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 5,
+        "題目": "何謂碳淨零（Net Zero）目的",
+        "選項A": "減緩氣候危機",
+        "選項B": "節省經濟負擔",
+        "選項C": "國際協議",
+        "選項D": "維持地球均溫",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 6,
+        "題目": "要將溫室氣體轉換成二氧化碳當量，所需要的轉換係數為何？",
+        "選項A": "GMP",
+        "選項B": "GWP",
+        "選項C": "CCU",
+        "選項D": "CDM",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 7,
+        "題目": "藉由減緩、封閉與縮小物質與能量循環，使得資源的投入與廢棄、排放達成減量化的目標，稱為?",
+        "選項A": "資源再回收",
+        "選項B": "循環經濟",
+        "選項C": "資源再生",
+        "選項D": "氣候變遷",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 8,
+        "題目": "滅火器是屬於哪一類型的溫室氣體排放源？",
+        "選項A": "範疇１",
+        "選項B": "範疇２",
+        "選項C": "範疇３",
+        "選項D": "以上皆是",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 9,
+        "題目": "《京都議定書》中規範下列何種溫室氣體？",
+        "選項A": "二氧化碳(CO2)",
+        "選項B": "氧氣(O2)",
+        "選項C": "一氧化碳(CO)",
+        "選項D": "臭氧(O3)",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 10,
+        "題目": "下列 ISO14064-1 原則何者為非？",
+        "選項A": "完整性",
+        "選項B": "保守性",
+        "選項C": "準確性",
+        "選項D": "透明性",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 11,
+        "題目": "森林碳匯又稱為？",
+        "選項A": "綠碳",
+        "選項B": "藍碳",
+        "選項C": "黃碳",
+        "選項D": "以上皆可",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 12,
+        "題目": "海洋碳匯又稱為？",
+        "選項A": "綠碳",
+        "選項B": "藍碳",
+        "選項C": "黃碳",
+        "選項D": "以上皆可",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 13,
+        "題目": "土壤碳匯又稱為？",
+        "選項A": "綠碳",
+        "選項B": "藍碳",
+        "選項C": "黃碳",
+        "選項D": "以上皆可",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 14,
+        "題目": "公司(組織)執行溫室氣體排放盤查作業時，操作柴油鍋爐的溫室氣體排放量，應鑑別為何種類型的排放源?",
+        "選項A": "範疇1類別1",
+        "選項B": "範疇3類別4",
+        "選項C": "範疇3類別5",
+        "選項D": "範疇3類別6",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 15,
+        "題目": "公司(組織)執行溫室氣體排放盤查作業時，委由旅行社代辦年度員工旅遊的溫室氣體排放量，應鑑別為何種類型的排放源?",
+        "選項A": "範疇1類別1",
+        "選項B": "範疇3類別4",
+        "選項C": "範疇3類別5",
+        "選項D": "範疇3類別6",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 16,
+        "題目": "公司(組織)執行溫室氣體排放盤查時，通常會設定何者為基準年?",
+        "選項A": "歷年來排放量最多之年度",
+        "選項B": "盤查作業開始之年度",
+        "選項C": "歷年來排放量最少之年度",
+        "選項D": "抽籤決定",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 17,
+        "題目": "下列何者可以計算產品碳足跡？",
+        "選項A": "撘乘高鐵台北高雄往返一趟",
+        "選項B": "住一晚飯店",
+        "選項C": "一場演講會",
+        "選項D": "以上皆是",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 18,
+        "題目": "聯合國2030 SDGs，共包含幾項核心目標?",
+        "選項A": "13",
+        "選項B": "15",
+        "選項C": "17",
+        "選項D": "19",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 19,
+        "題目": "下列何者非屬GRI準則？",
+        "選項A": "通用",
+        "選項B": "行業準則",
+        "選項C": "主題準則",
+        "選項D": "政策準則",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 20,
+        "題目": "下列何者非TCFD氣候相關財務資訊揭露的核心要素？",
+        "選項A": "治理",
+        "選項B": "策略",
+        "選項C": "風險管理及指標和目標",
+        "選項D": "以上皆非",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 21,
+        "題目": "TCFD氣候變遷財務揭露框架中，揭露董事會在監督氣候相關風險與機會的角色，以及管理階層在評估與管理相關議題的作用，屬準則框架中何種面向？",
+        "選項A": "治理",
+        "選項B": "策略",
+        "選項C": "風險管理",
+        "選項D": "指標和目標",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 22,
+        "題目": "TCFD氣候變遷財務揭露框架，揭露氣候相關議題在短、中、長期影響組織業務、策略與財務規劃，屬準則框架何種面向？",
+        "選項A": "治理",
+        "選項B": "策略",
+        "選項C": "風險管理",
+        "選項D": "指標和目標",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 23,
+        "題目": "我國證交所訂定上市公司編製與申報永續作業辦法，要求符合條件之上市公司出版永續報告書的期限為多久？",
+        "選項A": "每月",
+        "選項B": "每季",
+        "選項C": "每半年",
+        "選項D": "每年",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 24,
+        "題目": "下列何者非永續會計準則委員會（SASB）涵蓋的永續面向？",
+        "選項A": "領導與治理",
+        "選項B": "環境",
+        "選項C": "人力資本",
+        "選項D": "生活型態",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 25,
+        "題目": "現行美國永續會計準則委員會SASB 準則，從產業角度來識別重大性議題，共分成 11 個產業別與多少個行業別？",
+        "選項A": "66",
+        "選項B": "77",
+        "選項C": "88",
+        "選項D": "99",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 26,
+        "題目": "ESG 代表的是什麼意思？",
+        "選項A": "環境、社會、公司治理",
+        "選項B": "經濟、社會、政府",
+        "選項C": "環境、社會、公民",
+        "選項D": "經濟、社會、政府治理",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 27,
+        "題目": "ESG 管理是指企業在生產經營過程中，遵循 ESG 理念，在哪些方面做出貢獻的管理活動？",
+        "選項A": "在環境、社會和公司治理方面",
+        "選項B": "在環境、社區和公司治理方面",
+        "選項C": "在氣候、社會和公司治理方面",
+        "選項D": "在環境、公益和公司治理方面",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 28,
+        "題目": "企業在建立 ESG 管理體系時，應注意以下哪些事項？",
+        "選項A": "把獲利目標降低",
+        "選項B": "依循ESG不可輕易變更",
+        "選項C": "建立具體、可量化、可實現、可追踪的體系",
+        "選項D": "盡量與利益相關者的期望相一致",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 29,
+        "題目": "ESG 社會Social內涵，包含：",
+        "選項A": "促進能源效率提升",
+        "選項B": "生物多樣化",
+        "選項C": "減少污染",
+        "選項D": "保障員工權益和安全",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 30,
+        "題目": "環境ESG面臨的挑戰中，主要受到哪些因素的影響？",
+        "選項A": "歷史和文化因素",
+        "選項B": "政治和地緣因素",
+        "選項C": "氣候與環境挑戰",
+        "選項D": "經濟和獲利因素",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 31,
+        "題目": "全球最大的溫室氣體來源?",
+        "選項A": "農業",
+        "選項B": "工業",
+        "選項C": "能源",
+        "選項D": "交通運輸",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 32,
+        "題目": "PAS 2050溫室氣體產品生命週期評估指南，沒有涵蓋產品的哪些環節?",
+        "選項A": "原材料採購",
+        "選項B": "產品生產",
+        "選項C": "產品市場",
+        "選項D": "產品廢棄",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 33,
+        "題目": "目前，國際上有關氣候變化的ESG評估框架，其中不具選項的是：",
+        "選項A": "TCFD",
+        "選項B": "CDP",
+        "選項C": "GRI",
+        "選項D": "ISO5001",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 34,
+        "題目": "ESG社會評估指標中包括：",
+        "選項A": "碳足跡",
+        "選項B": "董事會結構",
+        "選項C": "勞工權益",
+        "選項D": "財務透明度",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 35,
+        "題目": "企業支持社區的經濟發展主要是通過什麼方式實現的?",
+        "選項A": "提供安全的工作環境",
+        "選項B": "提供多樣化的產品和服務",
+        "選項C": "投資、合作、捐贈等方式回饋社區",
+        "選項D": "降低產品價格，嘉惠社區",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 36,
+        "題目": "ESG 社會的主要目標之一是?",
+        "選項A": "增加股東回報率",
+        "選項B": "促進社會發展",
+        "選項C": "加強董事會治理",
+        "選項D": "提高企業形象",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 37,
+        "題目": "企業如何通過ESG 促進社會發展?",
+        "選項A": "提高產品價格，避免大眾浪費",
+        "選項B": "創建新的市場，獲得新商機",
+        "選項C": "通過企業CSR的實踐，回饋社會",
+        "選項D": "增加公司的市值，增加股東收益",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 38,
+        "題目": "ESG 管理框架的核心要素不包括：",
+        "選項A": "ESG管理的目標",
+        "選項B": "ESG管理的政策",
+        "選項C": "ESG管理的預算",
+        "選項D": "ESG管理的資訊系統",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 39,
+        "題目": "ESG行動的效果評估不包含：",
+        "選項A": "目標達標比例",
+        "選項B": "成本效益",
+        "選項C": "利益相關者影響",
+        "選項D": "內部員工意見",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 40,
+        "題目": "ESG行動的文化和組織方面的主要目標是什麼?",
+        "選項A": "提高公司的市場規模",
+        "選項B": "優化財務報告",
+        "選項C": "創建積極的內部價值觀和風格",
+        "選項D": "減少環境影響",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 41,
+        "題目": "ESG 行動實施的關鍵是：",
+        "選項A": "資源投入",
+        "選項B": "內外部溝通",
+        "選項C": "融入日常運營",
+        "選項D": "獎勵機制",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 42,
+        "題目": "ESG 報告可以幫助企業識別ESG 風險。以下哪項是具體要求",
+        "選項A": "風險分類識別",
+        "選項B": "風險評估高低",
+        "選項C": "風險管理效能",
+        "選項D": "風險的性質、嚴重程度和可能性",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 43,
+        "題目": "哪一個步驟有助於識別潛在的ESG風險",
+        "選項A": "趨勢分析",
+        "選項B": "同行比較",
+        "選項C": "原因分析",
+        "選項D": "機會識別",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 44,
+        "題目": "下列哪一項不是現行主要的國際ESG報告標準?",
+        "選項A": "GRI標準",
+        "選項B": "SASB標準",
+        "選項C": "TCFD框架",
+        "選項D": "CDSB框架",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 45,
+        "題目": "關於GRI標準的描述，錯誤的是",
+        "選項A": "由全球報告倡議組織制定",
+        "選項B": "強調報告的透明度、關聯性等",
+        "選項C": "要求強制性揭露ESG訊息",
+        "選項D": "是應用最廣的ESG報告標準之一",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 46,
+        "題目": "以下哪項不屬於ESG 報告在風險評估方面的重要作用",
+        "選項A": "識別企業面臨的ESG風險",
+        "選項B": "評估ESG風險的影響程度",
+        "選項C": "確定產品的銷售目標",
+        "選項D": "提出管理ESG風險的措施",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 47,
+        "題目": "下列何者非永續會計準則委員會（SASB）涵蓋的永續面向？",
+        "選項A": "領導與治理",
+        "選項B": "環境",
+        "選項C": "人力資本",
+        "選項D": "生活型態",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 48,
+        "題目": "歐盟碳交易市場制度使得高碳排產業出現外移效應，搬到「排碳免費」地區繼續污染環境之現象稱之為",
+        "選項A": "碳足跡",
+        "選項B": "碳洩漏",
+        "選項C": "碳盤查",
+        "選項D": "碳中和",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 49,
+        "題目": "自願性排放權交易市場，碳權經由減少量所產生，稱為",
+        "選項A": "碳洩漏",
+        "選項B": "碳信用",
+        "選項C": "碳稅",
+        "選項D": "碳盤查",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 50,
+        "題目": "二氧化碳排放量由增轉降的歷史拐點，標誌著碳排放與經濟發展實現脫鈎，稱為",
+        "選項A": "碳達峰",
+        "選項B": "碳中和",
+        "選項C": "碳盤查",
+        "選項D": "碳洩漏",
+        "解答": "A",
+        "詳解": "答案為A"
+    }
+];
+
+let currentPage = 0;
+const questionsPerPage = 10;
+
+function displayQuiz() {
+    const startIndex = currentPage * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+    const pageQuestions = questions.slice(startIndex, endIndex);
+
+    let quizHTML = '';
+    pageQuestions.forEach((question, index) => {
+        // 處理詳解中的特殊標記，直接應用內聯樣式
+        const highlightedExplanation = question.詳解.replace(/\*\*(.*?)\*\*/g, '<span style="color: red; font-weight: bold;">$1</span>');
+
+        quizHTML += `
+            <div class="question-container" id="question-${startIndex + index}">
+                <h3>第${startIndex + index + 1}題：${question.題目}</h3>
+                <ul class="options">
+                    <li><input type="checkbox" name="q${startIndex + index}" value="A" id="q${startIndex + index}o1"><label for="q${startIndex + index}o1">A. ${question.選項A}</label></li>
+                    <li><input type="checkbox" name="q${startIndex + index}" value="B" id="q${startIndex + index}o2"><label for="q${startIndex + index}o2">B. ${question.選項B}</label></li>
+                    <li><input type="checkbox" name="q${startIndex + index}" value="C" id="q${startIndex + index}o3"><label for="q${startIndex + index}o3">C. ${question.選項C}</label></li>
+                    <li><input type="checkbox" name="q${startIndex + index}" value="D" id="q${startIndex + index}o4"><label for="q${startIndex + index}o4">D. ${question.選項D}</label></li>
+                </ul>
+                <p class="explanation" id="explanation-${startIndex + index}" style="display: none;">${highlightedExplanation}</p>
+            </div>
+        `;
+    });
+    document.getElementById('quiz-container').innerHTML = quizHTML;
+    updateButtonsVisibility();
+    scrollToTop();
+}
+
+function displayQuiz() {
+    const startIndex = currentPage * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+    const pageQuestions = questions.slice(startIndex, endIndex);
+
+    let quizHTML = '';
+    pageQuestions.forEach((question, index) => {
+        // 處理詳解中的特殊標記，直接應用內聯樣式
+        const highlightedExplanation = question.詳解.replace(/\*\*(.*?)\*\*/g, '<span style="color: red; font-weight: bold;">$1</span>');
+
+        quizHTML += `
+            <div class="question-container" id="question-${startIndex + index}">
+                <h3>第${startIndex + index + 1}題：${question.題目}</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q${startIndex + index}" value="A" id="q${startIndex + index}o1"><label for="q${startIndex + index}o1">A. ${question.選項A}</label></li>
+                    <li><input type="radio" name="q${startIndex + index}" value="B" id="q${startIndex + index}o2"><label for="q${startIndex + index}o2">B. ${question.選項B}</label></li>
+                    <li><input type="radio" name="q${startIndex + index}" value="C" id="q${startIndex + index}o3"><label for="q${startIndex + index}o3">C. ${question.選項C}</label></li>
+                    <li><input type="radio" name="q${startIndex + index}" value="D" id="q${startIndex + index}o4"><label for="q${startIndex + index}o4">D. ${question.選項D}</label></li>
+                </ul>
+                <p class="explanation" id="explanation-${startIndex + index}" style="display: none;">${highlightedExplanation}</p>
+            </div>
+        `;
+    });
+    document.getElementById('quiz-container').innerHTML = quizHTML;
+    updateButtonsVisibility();
+    scrollToTop();
+}
+
+function submitQuiz() {
+    let score = 0;
+    const startIndex = currentPage * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+
+    for (let i = startIndex; i < endIndex; i++) {
+        const questionContainer = document.getElementById(`question-${i}`);
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        const explanation = document.getElementById(`explanation-${i}`);
+
+        questionContainer.style.backgroundColor = ''; // 重置背景顏色
+
+        if (selectedAnswer) {
+            // 將正確答案設置為數組，即使是單個答案也作為數組處理
+            const correctAnswers = Array.isArray(questions[i].解答) ? questions[i].解答 : [questions[i].解答];
+
+            // 檢查是否選中的值在正確答案數組中
+            if (correctAnswers.includes(selectedAnswer.value)) {
+                score += 10;
+                questionContainer.style.backgroundColor = '#d4edda'; // 綠色背景
+            } else {
+                questionContainer.style.backgroundColor = '#f8d7da'; // 紅色背景
+            }
+        } else {
+            questionContainer.style.backgroundColor = '#f8d7da'; // 紅色背景（未答題）
+        }
+
+        explanation.style.display = 'block';
+    }
+
+    document.getElementById('score').innerText = `本頁得分：${score} / 100`;
+    updateButtonsVisibility();
+    scrollToTop();
+}
+function resubmitQuiz() {
+    const startIndex = currentPage * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+
+    for (let i = startIndex; i < endIndex; i++) {
+        const questionContainer = document.getElementById(`question-${i}`);
+        const radios = questionContainer.querySelectorAll('input[type="radio"]');
+        const explanation = document.getElementById(`explanation-${i}`);
+
+        // 重置單選按鈕
+        radios.forEach(radio => {
+            radio.checked = false; // 取消選中狀態
+            radio.disabled = false; // 確保可以重新選擇
+        });
+
+        // 重置背景顏色
+        questionContainer.style.backgroundColor = '';
+
+        // 隱藏詳解
+        explanation.style.display = 'none';
+    }
+
+    // 清空分數顯示
+    document.getElementById('score').innerText = '';
+
+    // 更新按鈕顯示狀態
+    updateButtonsVisibility();
+    
+    scrollToTop(); // 滾動到頁面頂部
+}
+function nextPage() {
+    currentPage++;
+    if (currentPage < 15) {
+        displayQuiz();
+        document.getElementById('score').innerText = '';
+    } else {
+        document.getElementById('quiz-container').innerHTML = '<h2>測驗完成！</h2>';
+    }
+    updateButtonsVisibility();
+    scrollToTop();
+}
+
+function prevPage() {
+    if (currentPage > 0) {
+        currentPage--;
+        displayQuiz();
+        document.getElementById('score').innerText = '';
+    }
+    updateButtonsVisibility();
+    scrollToTop();
+}
+
+function updateButtonsVisibility() {
+    const submitButton = document.getElementById('submit-button');
+    const resubmitButton = document.getElementById('resubmit-button');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+
+    submitButton.style.display = 'inline-block';
+    resubmitButton.style.display = 'none';
+    prevButton.style.display = currentPage > 0 ? 'inline-block' : 'none';
+    nextButton.style.display = currentPage < 14 ? 'inline-block' : 'none';
+
+    if (document.getElementById('score').innerText) {
+        submitButton.style.display = 'none';
+        resubmitButton.style.display = 'inline-block';
+    }
+}
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// 初始化測驗
+displayQuiz();
+    </script>
+</body>
+</html>

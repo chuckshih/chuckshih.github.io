@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>114年第三期中階永續管理師  線上互動題庫A卷</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .question-container {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 5px 0;
+        }
+        .explanation {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+            display: none;
+        }
+        .incorrect {
+            background-color: #ffeeee;
+        }
+        #score, #restart-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>114年第三期中階永續管理師  線上互動題庫A卷</h1>
+    <div id="quiz-container"></div>
+    <p id="score"></p>
+    <button id="submit-button" onclick="submitQuiz()">提交答案</button>
+    <button id="resubmit-button" onclick="resubmitQuiz()" style="display: none;">重新本頁測驗</button>
+    <button id="prev-button" onclick="prevPage()" style="display: none;">上一頁</button>
+    <button id="next-button" onclick="nextPage()" style="display: none;">下一頁</button>
+
+    <script>
+   const questions = [
+    {
+        "題號": 1,
+        "題目": "溫室效應是指行星的大氣層因為吸收何種能量，使得行星表面升溫？",
+        "選項A": "輻射",
+        "選項B": "超聲波",
+        "選項C": "α射線",
+        "選項D": "地震波",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 2,
+        "題目": "行政院環境部公告「第一批應盤查登錄溫室氣體排放量之排放源」，是指全廠(場)化石燃料燃燒產生之排放源其年總排放量達多少公噸二氧化碳當量以上？",
+        "選項A": "10000",
+        "選項B": "20000",
+        "選項C": "25000",
+        "選項D": "50000",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 3,
+        "題目": "以下何者不屬於再生能源？",
+        "選項A": "地熱能",
+        "選項B": "生質能",
+        "選項C": "天然氣",
+        "選項D": "以上皆非",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 4,
+        "題目": "全球的能源需求中，下列哪一種能源的使用爭議較小且未來的成長速度最快？",
+        "選項A": "石油",
+        "選項B": "天然氣",
+        "選項C": "核能",
+        "選項D": "以上皆非",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 5,
+        "題目": "為了預防世界各國所排放的溫室氣體避免影響全球氣候，國際上於 1997 年簽署何項議定書？",
+        "選項A": "倫敦議定書",
+        "選項B": "京都議定書",
+        "選項C": "首爾議定書",
+        "選項D": "多倫多議定書",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 6,
+        "題目": "淨零排放進行盤查二氧化碳排放當量時，有哪些不屬於溫室氣體計算範圍?",
+        "選項A": "CH4",
+        "選項B": "CO",
+        "選項C": "N2O",
+        "選項D": "SF6",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 7,
+        "題目": "行政院環境部公告「第二批應盤查登錄溫室氣體排放量之排放源」，是指全廠(場)化石燃料燃燒產生加工製造生產線之排放源其年總排放量達多少公噸二氧化碳當量以上？",
+        "選項A": "10000",
+        "選項B": "20000",
+        "選項C": "25000",
+        "選項D": "50000",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 8,
+        "題目": "下列何者非是溫室氣體減量的方式?",
+        "選項A": "風力發電",
+        "選項B": "地熱發電",
+        "選項C": "以乾淨的媒進行火力發電",
+        "選項D": "潮汐發電",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 9,
+        "題目": "下列何種方法無法減少二氧化碳？",
+        "選項A": "多吃蔬菜，少吃肉",
+        "選項B": "自備杯筷，減少免洗用具垃圾量",
+        "選項C": "選購當 地、當季食材，減少運輸碳足跡",
+        "選項D": "想吃多少儘量點，剩下可當廚餘回收",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 10,
+        "題目": "下列何者意指計算二氧化碳排放總量，透過植樹等方式吸收這些二氧化碳，達成環保與平衡的最終目標？",
+        "選項A": "碳足跡",
+        "選項B": "碳標籤",
+        "選項C": "碳中和",
+        "選項D": "碳交易",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 11,
+        "題目": "減碳的工作並不止是公部門應該進行，也應該由全民來落實、執行，下列何者不是乾淨的低碳能源？",
+        "選項A": "再生能源",
+        "選項B": "火力發電",
+        "選項C": "可替代能源",
+        "選項D": "生質能源",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 12,
+        "題目": "節能減碳是企業的社會責任之一，試問下列何者不屬於節能減碳的範圍？",
+        "選項A": "使用衛生杯、衛生筷的餐具",
+        "選項B": "選用環保器具",
+        "選項C": "選用節能器材",
+        "選項D": "成立節能管理委員會",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 13,
+        "題目": "碳中和的三大程序不包含下列哪項？",
+        "選項A": "盤查",
+        "選項B": "增加",
+        "選項C": "減量",
+        "選項D": "抵換",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 14,
+        "題目": "在購買商品時，何者不是正確的節能減碳態度？",
+        "選項A": "只買需要的東西",
+        "選項B": "購買進口商品",
+        "選項C": "認定環保標章",
+        "選項D": "不使用過度包裝",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 15,
+        "題目": "近年來全球暖化問題日趨嚴重，因此「節能減碳」成為大眾的新趨勢。下列作法可能有助於達到節能減碳的是？<br>［一、通勤時多騎腳踏車，少開車］；<br>［二、帳單改為電子帳單］；<br>［三、推廣「綠建築」，減少水泥建物的修建］；<br>［四、多吃在地的食物，減少碳足跡］。<br>以上四項有幾項是正確的？",
+        "選項A": "1項",
+        "選項B": "2項",
+        "選項C": "3項",
+        "選項D": "4項",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 16,
+        "題目": "透過使用再生能源及省能設備等措施降低碳排放量，再以減量額度抵換剩餘排放量，使得排放到大氣的二氧化碳總量與植物吸收的等量平衡稱為？",
+        "選項A": "碳足跡",
+        "選項B": "碳標籤",
+        "選項C": "碳中和",
+        "選項D": "碳揭露",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 17,
+        "題目": "在京都議定書的運作中「由工業化國家提供技術及財務的支援，幫助開發中國家溫室氣體減量，而減量的碳權可轉賣給發達國家以達到減量目標」的機制稱為？",
+        "選項A": "清潔發展機制",
+        "選項B": "排放交易機制",
+        "選項C": "共同減量機制",
+        "選項D": "植樹造林機制",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 18,
+        "題目": "將二氧化碳或其他溫室氣體自排放單元或大氣中持續分離後，吸收或儲存之樹木、森林、土壤、海洋、地下等被稱為？",
+        "選項A": "碳池",
+        "選項B": "碳匯",
+        "選項C": "碳權",
+        "選項D": "碳交易",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 19,
+        "題目": "何謂碳淨零（Net Zero）目的",
+        "選項A": "減緩氣候危機",
+        "選項B": "節省經濟負擔",
+        "選項C": "國際協議",
+        "選項D": "維持地球均溫",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 20,
+        "題目": "要將溫室氣體轉換成二氧化碳當量，所需要的轉換係數為何？",
+        "選項A": "GMP",
+        "選項B": "GWP",
+        "選項C": "CCU",
+        "選項D": "CDM",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 21,
+        "題目": "藉由減緩、封閉與縮小物質與能量循環，使得資源的投入與廢棄、排放達成減量化的目標，稱為?",
+        "選項A": "資源再回收",
+        "選項B": "循環經濟",
+        "選項C": "資源再生",
+        "選項D": "氣候變遷",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 22,
+        "題目": "為了達成碳中和的目的，下列作法何者為非？",
+        "選項A": "採用低碳或零碳排的技術",
+        "選項B": "利用碳補償機制，使其產生碳排放量以其它減少碳排放量相抵銷",
+        "選項C": "使用天然氣取代燃煤",
+        "選項D": "使用再生能源",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 23,
+        "題目": "台灣的再生能源憑證,每張憑證為代表多少若干的綠電",
+        "選項A": "100度",
+        "選項B": "1000度",
+        "選項C": "10000度",
+        "選項D": "10度",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 24,
+        "題目": "下列溫室氣體的排放係數中，何者的正確性最高？",
+        "選項A": "自廠發展係數",
+        "選項B": "國家公告係數",
+        "選項C": "國際公告係數",
+        "選項D": "設備提供係數",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 25,
+        "題目": "工廠中的電力使用，是屬於哪一類型的溫室氣體排放源？",
+        "選項A": "範疇１",
+        "選項B": "範疇２",
+        "選項C": "範疇３",
+        "選項D": "範疇４",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 26,
+        "題目": "滅火器是屬於哪一類型的溫室氣體排放源？",
+        "選項A": "範疇１",
+        "選項B": "範疇２",
+        "選項C": "範疇３",
+        "選項D": "以上皆是",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 27,
+        "題目": "《京都議定書》中規範下列何種溫室氣體？",
+        "選項A": "二氧化碳(CO2)",
+        "選項B": "氧氣(O2)",
+        "選項C": "一氧化碳(CO)",
+        "選項D": "臭氧(O3)",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 28,
+        "題目": "企業委託物流公司進行運送所產生的溫室氣體屬於哪一類型的溫室氣體排放源？",
+        "選項A": "範疇１",
+        "選項B": "範疇２",
+        "選項C": "範疇３",
+        "選項D": "範疇４",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 29,
+        "題目": "下列何者不屬於企業溫室氣體排放直接衝擊(Scope 1)?",
+        "選項A": "企業擁有的堆高機用柴油",
+        "選項B": "外購電力",
+        "選項C": "企業辦公室空調補充冷媒",
+        "選項D": "企業工廠生產使用蒸汽鍋爐",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 30,
+        "題目": "我國溫室氣體查驗管理單位為？",
+        "選項A": "經濟部",
+        "選項B": "金管會",
+        "選項C": "環境部",
+        "選項D": "交通部",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 31,
+        "題目": "下列何者屬於組織溫室氣體排放'間接衝擊'(Scope 2)?",
+        "選項A": "廢棄物處理委外運輸",
+        "選項B": "向自廠使用的煙煤",
+        "選項C": "向他廠購買的蒸汽",
+        "選項D": "自廠使用的重油",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 32,
+        "題目": "客戶使用/租賃/廢棄本公司所生產之產品，而產生之間接溫室氣體排放，依照ISO 14064：2006，此種排放屬於？",
+        "選項A": "範疇3(類別3)",
+        "選項B": "範疇3(類別4)",
+        "選項C": "範疇3(類別5)",
+        "選項D": "範疇3(類別6)",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 33,
+        "題目": "公司(組織)執行溫室氣體排放盤查作業時，該公司消防設備中的CO2滅火器，應如何計算碳排放量?",
+        "選項A": "無須計算",
+        "選項B": "依CO2耗用量乘以排放係數得知碳排放量",
+        "選項C": "CO2耗用量即是碳排放量",
+        "選項D": "以上皆非",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 34,
+        "題目": "公司(組織)執行溫室氣體排放盤查時，通常會設定何者為基準年?",
+        "選項A": "歷年來排放量最多之年度",
+        "選項B": "盤查作業開始之年度",
+        "選項C": "歷年來排放量最少之年度",
+        "選項D": "抽籤決定",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 35,
+        "題目": "公司(組織)執行溫室氣體排放盤查作業時，委外製造半成品的溫室氣體排放量，應鑑別為何種類型的排放源?",
+        "選項A": "範疇1類別1",
+        "選項B": "範疇3類別4",
+        "選項C": "範疇3類別5",
+        "選項D": "範疇3類別6",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 36,
+        "題目": "下列何者是綠色能源？",
+        "選項A": "風力",
+        "選項B": "生質能",
+        "選項C": "地熱",
+        "選項D": "以上皆是",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 37,
+        "題目": "依金管會上市櫃公司永續發展路徑圖規劃，資本額50億元以下上市櫃公司及鋼鐵、水泥業合併報表子公司須於何年開始執行減碳行動?",
+        "選項A": "2026",
+        "選項B": "2028",
+        "選項C": "2029",
+        "選項D": "2030",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 38,
+        "題目": "假設A公司全廠用電量為1000度，電力來源為再生能源1000度，其電力之溫室氣體排放量為多少?",
+        "選項A": "0kgCO2e",
+        "選項B": "509kgCO2e",
+        "選項C": "239kgCO2e",
+        "選項D": "以上皆非",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 39,
+        "題目": "依金管會上市櫃公司永續發展路徑圖規劃，資本額50~100億元上市櫃公司及鋼鐵、水泥業合併報表子公司須於何年開始執行減碳行動?",
+        "選項A": "2024",
+        "選項B": "2025",
+        "選項C": "2026",
+        "選項D": "2027",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 40,
+        "題目": "排放量數據或溫室氣體減量(含碳匯量)數據，查驗機構驗證或現場稽核之作業，稱之為何?",
+        "選項A": "盤查",
+        "選項B": "查證",
+        "選項C": "登錄",
+        "選項D": "查核",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 41,
+        "題目": "台灣產業因應 2050 淨零排放的關鍵策略為何?",
+        "選項A": "使用綠色能源",
+        "選項B": "減少製造的能耗，提高資源循環",
+        "選項C": "提高國際交流",
+        "選項D": "增加碳交易",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 42,
+        "題目": "企業委託廣告公司進行宣傳所產生的溫室氣體屬於哪一類型的溫室氣體排放源？",
+        "選項A": "範疇１",
+        "選項B": "範疇２",
+        "選項C": "範疇３",
+        "選項D": "範疇４",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 43,
+        "題目": "綠電以專線輸送至用戶，由再生能源發電業者申請憑證，並依再生能源發電業與用戶簽署之綠電交易合約進行綠電交易，此綠電模式稱為?",
+        "選項A": "直供綠電",
+        "選項B": "轉供綠電",
+        "選項C": "透過再生能源售電業銷售綠電",
+        "選項D": "自發自用",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 44,
+        "題目": "綠電透過台電公司電網輸配至用戶，由再生能源發電業者申請憑證，並依再生能源發電業與用戶簽署之綠電交易合約進行綠電交易，此綠電模式稱為?",
+        "選項A": "直供綠電",
+        "選項B": "轉供綠電",
+        "選項C": "自發自用",
+        "選項D": "以上皆非",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 45,
+        "題目": "再生能源售電業與再生能源發電業及用戶簽定綠電交易合約，綠電同樣透過台電電網輸配至用戶，稱為",
+        "選項A": "轉供綠電",
+        "選項B": "自發自用",
+        "選項C": "透過再生能源售電業銷售綠電",
+        "選項D": "直供綠電",
+        "解答": "C",
+        "詳解": "答案為C"
+    },
+    {
+        "題號": 46,
+        "題目": "下列何項為再生能源市場交易架構及相關憑證移轉模式",
+        "選項A": "直供綠電",
+        "選項B": "轉供綠電",
+        "選項C": "自發自用",
+        "選項D": "以上皆是",
+        "解答": "D",
+        "詳解": "答案為D"
+    },
+    {
+        "題號": 47,
+        "題目": "再生能源電力排放係數，屬太陽光電、風力發電、水力發電及地熱等類型者電力排放係數為多少",
+        "選項A": "0.342",
+        "選項B": "0",
+        "選項C": "0.509",
+        "選項D": "1",
+        "解答": "B",
+        "詳解": "答案為B"
+    },
+    {
+        "題號": 48,
+        "題目": "假設A公司全廠用電量為2000度，電力來源分別為台電1000度，再生能源1000度，該年度電力之溫室氣體排放量為多少?",
+        "選項A": "509kgCO2e",
+        "選項B": "0kgCO2e",
+        "選項C": "1018kgCO2e",
+        "選項D": "以上皆非",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 49,
+        "題目": "公司(組織)執行溫室氣體排放盤查作業時，操作柴油鍋爐的溫室氣體排放量，應鑑別為何種類型的排放源?",
+        "選項A": "範疇1類別1",
+        "選項B": "範疇3類別4",
+        "選項C": "範疇3類別5",
+        "選項D": "範疇3類別6",
+        "解答": "A",
+        "詳解": "答案為A"
+    },
+    {
+        "題號": 50,
+        "題目": "公司(組織)執行溫室氣體排放盤查作業時，委由旅行社代辦年度員工旅遊的溫室氣體排放量，應鑑別為何種類型的排放源?",
+        "選項A": "範疇1類別1",
+        "選項B": "範疇3類別4",
+        "選項C": "範疇3類別5",
+        "選項D": "範疇3類別6",
+        "解答": "D",
+        "詳解": "答案為D"
+    }
+];
+
+let currentPage = 0;
+const questionsPerPage = 10;
+
+function displayQuiz() {
+    const startIndex = currentPage * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+    const pageQuestions = questions.slice(startIndex, endIndex);
+
+    let quizHTML = '';
+    pageQuestions.forEach((question, index) => {
+        // 處理詳解中的特殊標記，直接應用內聯樣式
+        const highlightedExplanation = question.詳解.replace(/\*\*(.*?)\*\*/g, '<span style="color: red; font-weight: bold;">$1</span>');
+
+        quizHTML += `
+            <div class="question-container" id="question-${startIndex + index}">
+                <h3>第${startIndex + index + 1}題：${question.題目}</h3>
+                <ul class="options">
+                    <li><input type="checkbox" name="q${startIndex + index}" value="A" id="q${startIndex + index}o1"><label for="q${startIndex + index}o1">A. ${question.選項A}</label></li>
+                    <li><input type="checkbox" name="q${startIndex + index}" value="B" id="q${startIndex + index}o2"><label for="q${startIndex + index}o2">B. ${question.選項B}</label></li>
+                    <li><input type="checkbox" name="q${startIndex + index}" value="C" id="q${startIndex + index}o3"><label for="q${startIndex + index}o3">C. ${question.選項C}</label></li>
+                    <li><input type="checkbox" name="q${startIndex + index}" value="D" id="q${startIndex + index}o4"><label for="q${startIndex + index}o4">D. ${question.選項D}</label></li>
+                </ul>
+                <p class="explanation" id="explanation-${startIndex + index}" style="display: none;">${highlightedExplanation}</p>
+            </div>
+        `;
+    });
+    document.getElementById('quiz-container').innerHTML = quizHTML;
+    updateButtonsVisibility();
+    scrollToTop();
+}
+
+function displayQuiz() {
+    const startIndex = currentPage * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+    const pageQuestions = questions.slice(startIndex, endIndex);
+
+    let quizHTML = '';
+    pageQuestions.forEach((question, index) => {
+        // 處理詳解中的特殊標記，直接應用內聯樣式
+        const highlightedExplanation = question.詳解.replace(/\*\*(.*?)\*\*/g, '<span style="color: red; font-weight: bold;">$1</span>');
+
+        quizHTML += `
+            <div class="question-container" id="question-${startIndex + index}">
+                <h3>第${startIndex + index + 1}題：${question.題目}</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q${startIndex + index}" value="A" id="q${startIndex + index}o1"><label for="q${startIndex + index}o1">A. ${question.選項A}</label></li>
+                    <li><input type="radio" name="q${startIndex + index}" value="B" id="q${startIndex + index}o2"><label for="q${startIndex + index}o2">B. ${question.選項B}</label></li>
+                    <li><input type="radio" name="q${startIndex + index}" value="C" id="q${startIndex + index}o3"><label for="q${startIndex + index}o3">C. ${question.選項C}</label></li>
+                    <li><input type="radio" name="q${startIndex + index}" value="D" id="q${startIndex + index}o4"><label for="q${startIndex + index}o4">D. ${question.選項D}</label></li>
+                </ul>
+                <p class="explanation" id="explanation-${startIndex + index}" style="display: none;">${highlightedExplanation}</p>
+            </div>
+        `;
+    });
+    document.getElementById('quiz-container').innerHTML = quizHTML;
+    updateButtonsVisibility();
+    scrollToTop();
+}
+
+function submitQuiz() {
+    let score = 0;
+    const startIndex = currentPage * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+
+    for (let i = startIndex; i < endIndex; i++) {
+        const questionContainer = document.getElementById(`question-${i}`);
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        const explanation = document.getElementById(`explanation-${i}`);
+
+        questionContainer.style.backgroundColor = ''; // 重置背景顏色
+
+        if (selectedAnswer) {
+            // 將正確答案設置為數組，即使是單個答案也作為數組處理
+            const correctAnswers = Array.isArray(questions[i].解答) ? questions[i].解答 : [questions[i].解答];
+
+            // 檢查是否選中的值在正確答案數組中
+            if (correctAnswers.includes(selectedAnswer.value)) {
+                score += 10;
+                questionContainer.style.backgroundColor = '#d4edda'; // 綠色背景
+            } else {
+                questionContainer.style.backgroundColor = '#f8d7da'; // 紅色背景
+            }
+        } else {
+            questionContainer.style.backgroundColor = '#f8d7da'; // 紅色背景（未答題）
+        }
+
+        explanation.style.display = 'block';
+    }
+
+    document.getElementById('score').innerText = `本頁得分：${score} / 100`;
+    updateButtonsVisibility();
+    scrollToTop();
+}
+function resubmitQuiz() {
+    const startIndex = currentPage * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+
+    for (let i = startIndex; i < endIndex; i++) {
+        const questionContainer = document.getElementById(`question-${i}`);
+        const radios = questionContainer.querySelectorAll('input[type="radio"]');
+        const explanation = document.getElementById(`explanation-${i}`);
+
+        // 重置單選按鈕
+        radios.forEach(radio => {
+            radio.checked = false; // 取消選中狀態
+            radio.disabled = false; // 確保可以重新選擇
+        });
+
+        // 重置背景顏色
+        questionContainer.style.backgroundColor = '';
+
+        // 隱藏詳解
+        explanation.style.display = 'none';
+    }
+
+    // 清空分數顯示
+    document.getElementById('score').innerText = '';
+
+    // 更新按鈕顯示狀態
+    updateButtonsVisibility();
+    
+    scrollToTop(); // 滾動到頁面頂部
+}
+function nextPage() {
+    currentPage++;
+    if (currentPage < 15) {
+        displayQuiz();
+        document.getElementById('score').innerText = '';
+    } else {
+        document.getElementById('quiz-container').innerHTML = '<h2>測驗完成！</h2>';
+    }
+    updateButtonsVisibility();
+    scrollToTop();
+}
+
+function prevPage() {
+    if (currentPage > 0) {
+        currentPage--;
+        displayQuiz();
+        document.getElementById('score').innerText = '';
+    }
+    updateButtonsVisibility();
+    scrollToTop();
+}
+
+function updateButtonsVisibility() {
+    const submitButton = document.getElementById('submit-button');
+    const resubmitButton = document.getElementById('resubmit-button');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+
+    submitButton.style.display = 'inline-block';
+    resubmitButton.style.display = 'none';
+    prevButton.style.display = currentPage > 0 ? 'inline-block' : 'none';
+    nextButton.style.display = currentPage < 14 ? 'inline-block' : 'none';
+
+    if (document.getElementById('score').innerText) {
+        submitButton.style.display = 'none';
+        resubmitButton.style.display = 'inline-block';
+    }
+}
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// 初始化測驗
+displayQuiz();
+    </script>
+</body>
+</html>
